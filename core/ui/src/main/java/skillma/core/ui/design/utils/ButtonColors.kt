@@ -7,6 +7,7 @@ import skillma.core.ui.theme.NeutralBlack12
 import skillma.core.ui.theme.NeutralBlack13
 import skillma.core.ui.theme.NeutralWhite10
 import skillma.core.ui.theme.NeutralWhite4
+import skillma.core.ui.theme.Violet500
 
 sealed class ButtonColor(
     val containerColor: Color,
@@ -16,7 +17,7 @@ sealed class ButtonColor(
 ) {
 
     data object Primary : ButtonColor(
-        containerColor = Green500,
+        containerColor = Violet500,
         contentColor = NeutralBlack13,
         disableContainerColor = NeutralWhite10,
         disableContentColor = NeutralBlack13,

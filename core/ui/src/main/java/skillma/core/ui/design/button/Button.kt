@@ -15,7 +15,7 @@ import skillma.core.ui.theme.NeutralBlack12
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun Button(
+fun SkillimaButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit,
     enabled: Boolean = true,

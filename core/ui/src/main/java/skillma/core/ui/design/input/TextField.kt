@@ -30,7 +30,7 @@ import skillma.core.ui.theme.SkillimaMentorsTheme
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun TextField(
+fun SkillimaTextField(
     modifier: Modifier = Modifier,
     value: String,
     hintValue: String,
@@ -90,7 +90,7 @@ fun TextField(
 
 @Preview
 @Composable
-fun TextFieldPreview() {
+fun SkillimaTextFieldPreview() {
     SkillimaMentorsTheme {
         var text by remember {
             mutableStateOf("")
@@ -99,7 +99,7 @@ fun TextFieldPreview() {
         
 
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            TextField(
+            SkillimaTextField(
                 value = text,
                 onValueChange = {
                     text = it
@@ -108,7 +108,7 @@ fun TextFieldPreview() {
                 state = TextFieldState.Loading
             )
 
-            TextField(
+            SkillimaTextField(
                 value = text,
                 onValueChange = {
                     text = it

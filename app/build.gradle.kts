@@ -1,10 +1,11 @@
 plugins {
     alias(libs.plugins.skillima.android.compose)
     alias(libs.plugins.skillima.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
-    namespace = "skillima.mentors"
+    namespace = "skillima.core"
     compileSdk {
         version = release(36)
     }
@@ -41,6 +42,18 @@ android {
 }
 
 dependencies {
+
+    implementation(project(":core:auth"))
+    implementation(project(":core:onboarding"))
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
+
+    //nav 3
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.kotlinx.serialization.core)
+
+    
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
