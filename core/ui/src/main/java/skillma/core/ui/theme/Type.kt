@@ -6,7 +6,7 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import skillma.core.ui.R.font as CommonFont
+import skillima.core.ui.R.font as CommonFont
 
 val displayFontFamily = FontFamily(
     listOf(
@@ -28,21 +28,21 @@ val AppTypography = Typography(
         fontWeight = FontWeight.Black,
         fontSize = 57.sp,
         lineHeight = 64.sp,
-        letterSpacing = (-0.25).sp
+        letterSpacing = 5.7.sp
     ),
     displayMedium = TextStyle(
         fontFamily = displayFontFamily,
         fontWeight = FontWeight.Bold,
         fontSize = 45.sp,
         lineHeight = 52.sp,
-        letterSpacing = 0.sp
+        letterSpacing = 4.5.sp
     ),
     displaySmall = TextStyle(
         fontFamily = displayFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 36.sp,
         lineHeight = 44.sp,
-        letterSpacing = 0.sp
+        letterSpacing = 3.6.sp
     ),
 
     // Headline (section headings)
@@ -51,21 +51,21 @@ val AppTypography = Typography(
         fontWeight = FontWeight.Bold,
         fontSize = 32.sp,
         lineHeight = 40.sp,
-        letterSpacing = 0.sp
+        letterSpacing = 3.2.sp
     ),
     headlineMedium = TextStyle(
         fontFamily = displayFontFamily,
         fontWeight = FontWeight.SemiBold,
         fontSize = 28.sp,
         lineHeight = 36.sp,
-        letterSpacing = 0.sp
+        letterSpacing = 2.8.sp
     ),
     headlineSmall = TextStyle(
         fontFamily = displayFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 24.sp,
         lineHeight = 32.sp,
-        letterSpacing = 0.sp
+        letterSpacing = 2.4.sp
     ),
 
     // Titles (app bars, cards)
@@ -74,21 +74,21 @@ val AppTypography = Typography(
         fontWeight = FontWeight.Medium,
         fontSize = 22.sp,
         lineHeight = 28.sp,
-        letterSpacing = 0.sp
+        letterSpacing = 2.2.sp
     ),
     titleMedium = TextStyle(
         fontFamily = displayFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 24.sp,
-        letterSpacing = 0.15.sp
+        letterSpacing = 1.6.sp
     ),
     titleSmall = TextStyle(
         fontFamily = displayFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 20.sp,
-        letterSpacing = 0.1.sp
+        letterSpacing = 1.4.sp
     ),
 
     // Body (default app copy)
@@ -97,21 +97,21 @@ val AppTypography = Typography(
         fontWeight = FontWeight.Medium,
         fontSize = 16.sp,
         lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing =1.6.sp
     ),
     bodyMedium = TextStyle(
         fontFamily = displayFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 14.sp,
         lineHeight = 20.sp,
-        letterSpacing = 0.25.sp
+        letterSpacing = 1.4.sp
     ),
     bodySmall = TextStyle(
         fontFamily = displayFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp,
         lineHeight = 16.sp,
-        letterSpacing = 0.4.sp
+        letterSpacing = 1.2.sp
     ),
 
     // Labels (buttons, captions)
@@ -120,20 +120,20 @@ val AppTypography = Typography(
         fontWeight = FontWeight.Medium,
         fontSize = 14.sp,
         lineHeight = 20.sp,
-        letterSpacing = 0.1.sp
+        letterSpacing =1.4.sp
     ),
     labelMedium = TextStyle(
         fontFamily = displayFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 12.sp,
         lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 1.2.sp
     ),
     labelSmall = TextStyle(
         fontFamily = displayFontFamily,
         fontWeight = FontWeight.Medium,
         fontSize = 11.sp,
         lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
+        letterSpacing = 1.1.sp
     )
 )

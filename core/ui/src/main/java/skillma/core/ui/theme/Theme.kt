@@ -18,7 +18,7 @@ private val AppDarkColorScheme = darkColorScheme(
     tertiary = Green300,
     onTertiary = NeutralWhite1,
 
-    background = NeutralBlack12,        // main app background (very dark)
+    background = NeutralBlack13,        // main app background (very dark)
     onBackground = NeutralWhite1,
 
     surface = NeutralBlack11,           // cards, sheets, etc.

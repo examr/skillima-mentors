@@ -1,10 +1,13 @@
 plugins {
     alias(libs.plugins.skillima.android.library.compose)
     alias(libs.plugins.skillima.android.library)
+
+
+
 }
 
 android {
-    namespace = "skillma.core.ui"
+    namespace = "skillima.core.ui"
 
     defaultConfig {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
