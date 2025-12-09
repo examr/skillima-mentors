@@ -12,8 +12,10 @@ dependencies {
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.android.tools.common)
     compileOnly(libs.ksp.gradlePlugin)
+
     compileOnly(libs.firebase.crashlytics.gradlePlugin)
     compileOnly(libs.firebase.performance.gradlePlugin)
+
 }
 
 java {
@@ -65,5 +67,11 @@ gradlePlugin {
             id = "skillima.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
+
+        register("koin") {
+            id = "skillima.android.koin"
+            implementationClass = "AndroidKoinConventionPlugin"
+        }
+
     }
 }

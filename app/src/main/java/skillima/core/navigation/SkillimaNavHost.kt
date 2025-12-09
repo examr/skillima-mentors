@@ -1,21 +1,28 @@
 package skillima.core.navigation
 
-import android.net.wifi.hotspot2.pps.HomeSp
+import androidx.collection.longIntMapOf
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation3.runtime.NavEntry
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
-import skillima.core.auth.screens.LoginScreen
-import skillima.core.onboarding.OnBoardingScreen
-import skillima.core.onboarding.WelcomeScreen
+import org.koin.androidx.compose.koinViewModel
+import skillima.screens.auth.AuthViewmodel
+import skillima.screens.auth.screens.LoginScreen
+import skillima.screens.onboarding.OnBoardingScreen
+import skillima.screens.onboarding.WelcomeScreen
 
 
 @Composable
 fun SkillimaNavHost(modifier: Modifier = Modifier) {
     val backstack = remember { mutableStateListOf<Screen>(Screen.LoginScreen) }
+    val authViewmodel: AuthViewmodel = koinViewModel()
+    val userInput by authViewmodel.userInput.collectAsState()
+    val loginUiState by authViewmodel.loginUiState.collectAsState()
     NavDisplay(backStack = backstack,
         entryProvider = entryProvider {
             entry<Screen.Onboarding> {
@@ -39,7 +46,11 @@ fun SkillimaNavHost(modifier: Modifier = Modifier) {
                 )
             }
             entry<Screen.LoginScreen> {
-                LoginScreen()
+                LoginScreen(
+                 userInput = userInput,
+                    onEvent = authViewmodel::onEvent,
+                    loginUiState = loginUiState
+                )
             }
         })
 }
