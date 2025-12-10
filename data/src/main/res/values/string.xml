@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="auth_error_unknown">Something went wrong. Please try again.</string>
-    <string name="auth_error_network">No internet connection. Check and try again.</string>
-    <string name="auth_error_too_many_requests">Too many attempts. Try again later.</string>
+    <string name="auth_error_network">Network error. Check your connection.</string>
+    <string name="auth_error_too_many_requests">Too many requests. Try again later.</string>
+    <string name="auth_error_conflict">A conflict occurred.</string>
+    <string name="auth_error_bad_request">Bad request. Please try again.</string>
+
     <string name="auth_error_invalid_credentials">Invalid email or password.</string>
-    <string name="auth_error_user_not_found">No account found with this email.</string>
-    <string name="auth_error_user_disabled">This account has been disabled.</string>
-    <string name="auth_error_email_invalid">Please enter a valid email address.</string>
+    <string name="auth_error_user_not_found">User not found.</string>
+    <string name="auth_error_user_disabled">This user account is disabled.</string>
+
+    <string name="auth_error_email_invalid">Email address is invalid.</string>
     <string name="auth_error_email_exists">This email is already registered.</string>
-    <string name="auth_error_email_not_confirmed">Please confirm your email address first.</string>
-    <string name="auth_error_conflict">Conflict detected. Please contact support.</string>
+    <string name="auth_error_email_not_confirmed">Please confirm your email before signing in.</string>
+
+    <string name="auth_error_weak_password">Password is too weak.</string>
+    <string name="auth_error_same_password">New password must be different.</string>
+
+    <string name="auth_error_session_expired">Your session has expired. Please sign in again.</string>
+    <string name="auth_error_not_authorized">You are not authorized.</string>
+
+    <string name="auth_error_provider_disabled">This login provider is disabled.</string>
+    <string name="auth_error_provider_email_needs_verification">Email needs to be verified via provider.</string>
+
+    <string name="auth_error_validation_failed">Input validation failed.</string>
+    <string name="auth_error_captcha_failed">CAPTCHA verification failed.</string>
+
+    <string name="auth_error_mfa_failed">MFA verification failed.</string>
+    <string name="auth_error_mfa_expired">MFA challenge expired.</string>
+
 
 </resources>

@@ -139,7 +139,7 @@ fun LoginScreen(
                     color = TextFieldColors.Primary,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(52.dp),
+                        .height(60.dp),
                     value = userInput.email,
                     hintValue = "Email Address",
                     onValueChange = { email ->
@@ -160,7 +160,7 @@ fun LoginScreen(
                 SkillimaPasswordTextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(52.dp),
+                        .height(60.dp),
                     color = TextFieldColors.Primary,
                     value = userInput.password,
                     hintValue = "Password",
@@ -191,7 +191,7 @@ fun LoginScreen(
                 SkillimaButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(52.dp),
+                        .height(55.dp),
                     enabled = userInput.isLoginValid(),
                     state = loginButtonState,
                     colors = ButtonColor.Primary,
@@ -214,7 +214,7 @@ fun LoginScreen(
                 SkillimaButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(52.dp),
+                        .height(55.dp),
                     state = loginButtonState,
                     colors = ButtonColor.Secondary,
                     onClick = {

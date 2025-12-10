@@ -38,8 +38,12 @@ class AuthRepositoryImpl(private val supabaseClient: SupabaseClient): AuthReposi
         }.onFailure { error ->
 
             val authError = when (error) {
-                is AuthRestException -> mapAuthError(error.errorCode?.name)
-                else -> AuthError.Unknown
+                is AuthRestException -> {
+                    mapAuthError(error.error)
+                }
+                else -> {
+                    AuthError.Unknown
+                }
             }
 
             emit(Response.Error(authError))
