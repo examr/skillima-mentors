@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.skillima.android.compose)
     alias(libs.plugins.skillima.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.skillima.koin)
 }
 
 android {
@@ -43,8 +44,11 @@ android {
 
 dependencies {
 
-    implementation(project(":core:auth"))
-    implementation(project(":core:onboarding"))
+
+    implementation(project(":screens:auth"))
+    implementation(project(":screens:onboarding"))
+    implementation(project(":core:supabase"))
+    implementation(project(":data"))
     implementation("androidx.core:core-splashscreen:1.0.1")
 
 
@@ -53,7 +57,7 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.kotlinx.serialization.core)
 
-    
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

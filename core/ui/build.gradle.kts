@@ -1,9 +1,6 @@
 plugins {
     alias(libs.plugins.skillima.android.library.compose)
     alias(libs.plugins.skillima.android.library)
-
-
-
 }
 
 android {

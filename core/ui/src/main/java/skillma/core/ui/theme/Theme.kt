@@ -13,7 +13,7 @@ private val AppDarkColorScheme = darkColorScheme(
     secondary = Blue300,
     onSecondary = NeutralWhite1,
     secondaryContainer = Blue700,
-    onSecondaryContainer = NeutralWhite1,
+    onSecondaryContainer = NeutralBlack12,
 
     tertiary = Green300,
     onTertiary = NeutralWhite1,

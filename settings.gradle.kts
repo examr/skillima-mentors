@@ -23,6 +23,11 @@ enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "Skillima-Mentors"
 include(":app")
 include(":core:ui")
-include(":core:auth")
-include(":core:onboarding")
 include(":core:utils")
+includeBuild("build-logic")
+
+include(":screens:auth")
+include(":screens:onboarding")
+include(":data")
+include(":core:models")
+include(":core:supabase")
