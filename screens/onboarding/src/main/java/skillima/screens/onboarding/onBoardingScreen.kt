@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import skillima.screens.onboarding.R
+import skillma.core.ui.design.logo.SkillimaLogo
 
 import skillima.core.ui.R as CommonRes
 import skillma.core.ui.theme.NeutralBlack12
@@ -73,11 +74,8 @@ fun OnBoardingScreen(
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Image(
-                            painter = painterResource(CommonRes.drawable.skillima_logo),
-                            contentDescription = null,
-                            modifier = Modifier
-                                .width(60.dp)
+                        SkillimaLogo(
+                            modifier = Modifier  .width(60.dp)
                                 .height(110.dp)
                         )
                         Spacer(modifier = Modifier.width(20.dp))
@@ -160,7 +158,7 @@ fun OnBoardingScreen(
                             painter = painterResource(R.drawable.ic_arrow_down_left    ),
                             contentDescription = "Previous",
                             modifier = Modifier
-                                .rotate(0f) // adjust rotation if you want a different visual
+                                .rotate(90f) // adjust rotation if you want a different visual
                                 .size(24.dp)
                         )
                     }
@@ -189,7 +187,7 @@ fun OnBoardingScreen(
                         painter = painterResource(R.drawable.ic_arrow_down_left    ),
                         contentDescription = "Next",
                         modifier = Modifier
-                            .rotate(0f)
+                            .rotate(180f)
                             .size(24.dp)
                     )
                 }

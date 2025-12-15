@@ -1,73 +1,67 @@
 package skillima.screens.auth.state
 
-import skillima.core.utils.validator.EmailValidator
 import skillima.core.utils.validator.PasswordStrength
 import skillima.core.utils.validator.PasswordValidationParameter
-import skillima.core.utils.validator.PasswordValidator
-
 
 data class UserInput(
     val name: String = "",
     val email: String = "",
     val password: String = "",
+
     val passwordValidation: Map<PasswordValidationParameter, Boolean> = emptyMap(),
     val passwordStrength: PasswordStrength = PasswordStrength.WEAK,
+
+    val isNameValid: Boolean = false,
     val isEmailValid: Boolean = false,
-    val isNameValid: Boolean = false
+    val isPasswordValid: Boolean = false,
+
+    val nameInteracted: Boolean = false,
+    val emailInteracted: Boolean = false,
+    val passwordInteracted: Boolean = false
 ) {
 
-    fun updatePassword(newPassword: String) = copy(
-        password = newPassword
-    ).validate()
 
-    fun updateName(newName: String) = copy(
-        name = newName
-    ).validate()
 
-    fun updateEmail(newEmail: String) = copy(
-        email = newEmail
-    ).validate()
+    fun updateName(newName: String): UserInput =
+        copy(name = newName)
 
-    private fun validate(): UserInput {
-        val isValidEmail = EmailValidator.validateEmail(email)
-        val isValidName = name.length >= 5
+    fun updateEmail(newEmail: String): UserInput =
+        copy(email = newEmail)
 
-        val (validationResults, strength) =
-            if (password.isNotBlank()) {
-                PasswordValidator.isStrongPassword(password, email, name)
-            } else {
-                emptyMap<PasswordValidationParameter, Boolean>() to PasswordStrength.WEAK
-            }
+    fun updatePassword(newPassword: String): UserInput =
+        copy(password = newPassword)
 
-        return copy(
-            isEmailValid = isValidEmail,
-            isNameValid = isValidName,
-            passwordValidation = validationResults,
-            passwordStrength = strength
+
+    fun applyNameValidation(isValid: Boolean): UserInput =
+        copy(
+            isNameValid = isValid,
+            nameInteracted = name.isNotEmpty()
         )
-    }
 
-    fun clear() = UserInput()
+    fun applyEmailValidation(isValid: Boolean): UserInput =
+        copy(
+            isEmailValid = isValid,
+            emailInteracted = email.isNotEmpty()
+        )
+
+    fun applyPasswordValidation(
+        isValid: Boolean,
+        strength: PasswordStrength,
+        rules: Map<PasswordValidationParameter, Boolean>
+    ): UserInput =
+        copy(
+            isPasswordValid = isValid,
+            passwordStrength = strength,
+            passwordValidation = rules,
+            passwordInteracted = password.isNotEmpty()
+        )
+
 
     fun isSignupValid(): Boolean =
-        isNameValid &&
-                isEmailValid &&
-                passwordStrength == PasswordStrength.STRONG
+        isNameValid && isEmailValid && isPasswordValid
 
     fun isLoginValid(): Boolean =
-        isEmailValid && password.isNotBlank() && password.length >=6
+        isEmailValid && password.length >= 6
 
-    companion object {
-        fun createWithValidation(
-            name: String = "",
-            email: String = "",
-            password: String = ""
-        ): UserInput {
-            return UserInput(
-                name = name,
-                email = email,
-                password = password
-            ).validate()
-        }
-    }
+    fun clear(): UserInput = UserInput()
 }

@@ -13,17 +13,20 @@ import androidx.navigation3.ui.NavDisplay
 import org.koin.androidx.compose.koinViewModel
 import skillima.screens.auth.AuthViewmodel
 import skillima.screens.auth.screens.LoginScreen
+import skillima.screens.auth.screens.SignupScreen
 import skillima.screens.onboarding.OnBoardingScreen
 import skillima.screens.onboarding.WelcomeScreen
 
 
 @Composable
 fun SkillimaNavHost(modifier: Modifier = Modifier) {
-    val backstack = remember { mutableStateListOf<Screen>(Screen.LoginScreen) }
+    val backstack = remember { mutableStateListOf<Screen>(Screen.Onboarding) }
     val authViewmodel: AuthViewmodel = koinViewModel()
     val userInput by authViewmodel.userInput.collectAsState()
     val loginUiState by authViewmodel.loginUiState.collectAsState()
-    NavDisplay(backStack = backstack,
+    val signupUiState by authViewmodel.signupUiState.collectAsState()
+    NavDisplay(
+        backStack = backstack,
         entryProvider = entryProvider {
             entry<Screen.Onboarding> {
                 OnBoardingScreen(
@@ -33,7 +36,7 @@ fun SkillimaNavHost(modifier: Modifier = Modifier) {
                     }
                 )
             }
-            entry<Screen.WelcomeScreen>{
+            entry<Screen.WelcomeScreen> {
                 WelcomeScreen(
                     navigateToLogin = {
                         backstack.clear()
@@ -41,15 +44,31 @@ fun SkillimaNavHost(modifier: Modifier = Modifier) {
                     },
                     navigateToSignup = {
                         backstack.clear()
-                        backstack += Screen.LoginScreen
+                        backstack += Screen.SignupScreen
                     }
                 )
             }
             entry<Screen.LoginScreen> {
                 LoginScreen(
-                 userInput = userInput,
+                    userInput = userInput,
                     onEvent = authViewmodel::onEvent,
-                    loginUiState = loginUiState
+                    loginUiState = loginUiState,
+                    navigateToSignup = {
+                        backstack.clear()
+                        backstack += Screen.LoginScreen
+                    }
+                )
+            }
+            entry<Screen.SignupScreen> {
+                SignupScreen(
+                    userInput = userInput,
+                    onEvent = authViewmodel::onEvent,
+                    signupUiState = signupUiState,
+                     navigateToLogin = {
+                         backstack.clear()
+                         backstack += Screen.LoginScreen
+                     }
+
                 )
             }
         })

@@ -6,4 +6,5 @@ import skillima.core.utils.Response
 
 interface AuthRepository {
      fun login(userData: UserData): Flow<Response<Boolean>>
+    fun signup(userData:UserData):Flow<Response<Boolean>>
 }
