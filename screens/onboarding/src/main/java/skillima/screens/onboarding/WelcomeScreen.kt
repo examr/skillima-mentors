@@ -1,6 +1,5 @@
 package skillima.screens.onboarding
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
@@ -27,7 +25,6 @@ import androidx.compose.ui.unit.dp
 import skillma.core.ui.design.button.SkillimaButton
 import skillma.core.ui.design.logo.SkillimaLogo
 import skillma.core.ui.design.utils.ButtonColor
-import skillima.core.ui.R as CommonRes
 
 import skillma.core.ui.design.utils.ButtonState
 
@@ -54,7 +51,7 @@ fun WelcomeScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
         ) {
 
 

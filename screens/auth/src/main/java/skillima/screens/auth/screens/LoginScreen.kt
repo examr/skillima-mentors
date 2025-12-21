@@ -1,6 +1,5 @@
 package skillima.screens.auth.screens
 
-import android.widget.Button
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -31,14 +30,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import skillima.core.module.UserData
+import skillima.mentors.module.UserData
 import skillima.screens.auth.state.AuthEvents
 import skillima.screens.auth.state.LoginUiState
 import skillima.screens.auth.state.UserInput
@@ -118,7 +116,7 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(50.dp)
         ) {
 
@@ -249,6 +247,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = annotatedString,
+                textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)

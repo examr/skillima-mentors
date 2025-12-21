@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "skillima.core.module"
+    namespace = "skillima.mentors.module"
     compileSdk {
         version = release(36)
     }

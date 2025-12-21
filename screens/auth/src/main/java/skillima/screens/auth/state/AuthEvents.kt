@@ -1,6 +1,6 @@
 package skillima.screens.auth.state
 
-import skillima.core.module.UserData
+import skillima.mentors.module.UserData
 
 sealed class AuthEvents {
     data class OnEmailChange(val email:String): AuthEvents()

@@ -1,7 +1,7 @@
 package skillima.screens.auth.state
 
-import skillima.core.utils.validator.PasswordStrength
-import skillima.core.utils.validator.PasswordValidationParameter
+import skillima.mentors.utils.validator.PasswordStrength
+import skillima.mentors.utils.validator.PasswordValidationParameter
 
 data class UserInput(
     val name: String = "",

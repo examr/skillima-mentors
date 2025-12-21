@@ -1,6 +1,5 @@
 package skillima.screens.onboarding
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
@@ -24,10 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-import skillima.screens.onboarding.R
 import skillma.core.ui.design.logo.SkillimaLogo
 
-import skillima.core.ui.R as CommonRes
 import skillma.core.ui.theme.NeutralBlack12
 
 @OptIn(androidx.compose.foundation.ExperimentalFoundationApi::class)

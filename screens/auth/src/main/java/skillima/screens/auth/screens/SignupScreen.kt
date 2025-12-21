@@ -37,7 +37,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import skillima.core.module.UserData
+import skillima.mentors.module.UserData
 import skillima.screens.auth.state.AuthEvents
 import skillima.screens.auth.state.SignupUiState
 import skillima.screens.auth.state.UserInput
@@ -119,7 +119,7 @@ fun SignupScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(50.dp)
         ) {
 

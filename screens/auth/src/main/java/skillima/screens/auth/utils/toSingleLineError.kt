@@ -1,6 +1,6 @@
 package skillima.screens.auth.utils
 
-import skillima.core.utils.validator.PasswordValidationParameter
+import skillima.mentors.utils.validator.PasswordValidationParameter
 
 fun Map<PasswordValidationParameter, Boolean>.toSingleLineError(): String {
     if (isEmpty()) return ""
