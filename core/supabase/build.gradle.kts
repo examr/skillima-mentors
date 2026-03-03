@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "skillima.core.supabase"
+    namespace = "skillima.mentors.supabase"
     compileSdk {
         version = release(36)
     }

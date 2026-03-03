@@ -1,8 +1,10 @@
 package skillima.screens.auth.screens
 
-import android.widget.Button
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,10 +30,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import skillima.core.module.UserData
+import skillima.mentors.module.UserData
 import skillima.screens.auth.state.AuthEvents
 import skillima.screens.auth.state.LoginUiState
 import skillima.screens.auth.state.UserInput
@@ -51,10 +56,12 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
     loginUiState: LoginUiState,
     userInput: UserInput,
-    onEvent: (authEvents: AuthEvents) -> Unit
+    onEvent: (authEvents: AuthEvents) -> Unit,
+    navigateToSignup: () -> Unit
 ) {
 
     var loginButtonState by remember { mutableStateOf<ButtonState>(ButtonState.Idle) }
+    var googlebButtonState by remember { mutableStateOf<ButtonState>(ButtonState.Idle) }
     val snackBarHostState by remember { mutableStateOf(SnackbarHostState()) }
     val context = LocalContext.current
 
@@ -71,9 +78,11 @@ fun LoginScreen(
                 loginButtonState = ButtonState.Idle
 
             }
+
             LoginUiState.Loading -> {
                 loginButtonState = ButtonState.Loading
             }
+
             is LoginUiState.Success -> {
                 snackBarHostState.showSnackbar("Login Success")
                 loginButtonState = ButtonState.Success
@@ -107,13 +116,13 @@ fun LoginScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(it)
-                .padding(16.dp),
+                .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(50.dp)
         ) {
 
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(5.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
                 horizontalAlignment = Alignment.Start
             )
             {
@@ -138,8 +147,7 @@ fun LoginScreen(
                 SkillimaTextField(
                     color = TextFieldColors.Primary,
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(60.dp),
+                        .fillMaxWidth(),
                     value = userInput.email,
                     hintValue = "Email Address",
                     onValueChange = { email ->
@@ -159,8 +167,7 @@ fun LoginScreen(
 
                 SkillimaPasswordTextField(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(60.dp),
+                        .fillMaxWidth(),
                     color = TextFieldColors.Primary,
                     value = userInput.password,
                     hintValue = "Password",
@@ -187,17 +194,18 @@ fun LoginScreen(
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(15.dp)
-            ) {
+            )
+            {
                 SkillimaButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(55.dp),
+                        .height(50.dp),
                     enabled = userInput.isLoginValid(),
                     state = loginButtonState,
                     colors = ButtonColor.Primary,
                     onClick = {
                         val userData = UserData(
-                            email =  userInput.email,
+                            email = userInput.email,
                             password = userInput.password,
 
                             )
@@ -214,8 +222,8 @@ fun LoginScreen(
                 SkillimaButton(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(55.dp),
-                    state = loginButtonState,
+                        .height(50.dp),
+                    state = googlebButtonState,
                     colors = ButtonColor.Secondary,
                     onClick = {
 
@@ -229,6 +237,27 @@ fun LoginScreen(
                 }
 
             }
+
+            val annotatedString = buildAnnotatedString {
+                append("don’t have the accounts yet ? ")
+                withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                    append("Create your Account ")
+                }
+            }
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = annotatedString,
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .clickable(
+                        indication = null,
+                        interactionSource = remember { MutableInteractionSource() }
+                    ) {
+                        navigateToSignup()
+                    },
+            )
 
         }
 

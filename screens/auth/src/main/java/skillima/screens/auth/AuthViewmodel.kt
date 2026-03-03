@@ -1,60 +1,174 @@
 package skillima.screens.auth
 
-import android.provider.Settings.Global.getString
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
-import skillima.core.module.UserData
-import skillima.core.utils.Response
-import skillima.data.auth.error.AuthError
+import skillima.mentors.module.UserData
+import skillima.mentors.utils.Response
+import skillima.mentors.utils.validator.EmailValidator
+import skillima.mentors.utils.validator.PasswordStrength
+import skillima.mentors.utils.validator.PasswordValidator
 import skillima.data.auth.repository.AuthRepository
 import skillima.screens.auth.state.AuthEvents
 import skillima.screens.auth.state.LoginUiState
+import skillima.screens.auth.state.SignupUiState
 import skillima.screens.auth.state.UserInput
+class AuthViewmodel(
+    private val authRepository: AuthRepository
+) : ViewModel() {
 
-
-class AuthViewmodel(private val authRepository: AuthRepository) : ViewModel() {
-    private val _loginUiState = MutableStateFlow<LoginUiState>(LoginUiState.Idle)
+    private val _loginUiState =
+        MutableStateFlow<LoginUiState>(LoginUiState.Idle)
     val loginUiState = _loginUiState.asStateFlow()
 
-    private val _userInputState = MutableStateFlow<UserInput>(UserInput())
+    private val _signupUiState = MutableStateFlow<SignupUiState>(SignupUiState.Idle)
+    val signupUiState = _signupUiState.asStateFlow()
+
+    private val _userInputState =
+        MutableStateFlow(UserInput())
     val userInput = _userInputState.asStateFlow()
 
+    init {
+        observeDebouncedValidation()
+    }
+
+
     fun onEvent(authEvents: AuthEvents) {
+
         when (authEvents) {
+
+            is AuthEvents.OnNameChange -> {
+                _userInputState.value =
+                    _userInputState.value.copy(name = authEvents.name)
+            }
+
             is AuthEvents.OnEmailChange -> {
-                _userInputState.value = _userInputState.value.updateEmail(authEvents.email)
+                _userInputState.value =
+                    _userInputState.value.copy(email = authEvents.email)
             }
 
             is AuthEvents.OnPasswordChange -> {
-                _userInputState.value = _userInputState.value.updatePassword(authEvents.password)
-
+                _userInputState.value =
+                    _userInputState.value.copy(password = authEvents.password)
             }
 
-            is AuthEvents.Login -> {login(authEvents.userData)}
+            is AuthEvents.Login -> {
+                login(authEvents.userData)
+            }
+
+            is AuthEvents.Signup ->{
+                signup(userData = authEvents.userData)
+            }
         }
     }
 
-    fun login(userData: UserData) {
+
+    private fun observeDebouncedValidation() {
+
+        // NAME
+        viewModelScope.launch {
+            userInput
+                .map { it.name }
+                .distinctUntilChanged()
+                .debounce(500)
+                .collect { name ->
+                    _userInputState.value =
+                        _userInputState.value
+                            .copy(
+                                isNameValid = name.length >= 5,
+                                nameInteracted = name.isNotEmpty()
+                            )
+                }
+        }
+
+        // EMAIL
+        viewModelScope.launch {
+            userInput
+                .map { it.email }
+                .distinctUntilChanged()
+                .debounce(600)
+                .collect { email ->
+                    _userInputState.value =
+                        _userInputState.value
+                            .copy(
+                                isEmailValid = EmailValidator.validateEmail(email),
+                                emailInteracted = email.isNotEmpty()
+                            )
+                }
+        }
+
+        // PASSWORD
+        viewModelScope.launch {
+            userInput
+                .map { it.password }
+                .distinctUntilChanged()
+                .debounce(700)
+                .collect { password ->
+
+                    val (rules, strength) =
+                        PasswordValidator.isStrongPassword(
+                            password,
+                            _userInputState.value.email,
+                            _userInputState.value.name
+                        )
+
+                    val isValid =
+                        strength == PasswordStrength.STRONG &&
+                                rules.values.all { it }
+
+                    _userInputState.value =
+                        _userInputState.value.applyPasswordValidation(
+                            isValid = isValid,
+                            strength = strength,
+                            rules = rules
+                        )
+                }
+        }
+
+
+    }
+
+    private fun signup(userData: UserData){
+        viewModelScope.launch {
+            authRepository.signup(userData = userData).collect { res->
+                when(res){
+                    is Response.Error -> {
+                        _signupUiState.value = SignupUiState.Error(res.exception.error)
+                    }
+                    Response.Loading -> {
+                        _signupUiState.value = SignupUiState.Loading
+
+                    }
+                    is Response.Success-> {
+                        _signupUiState.value = SignupUiState.Success(res.data)
+
+                    }
+                }
+
+            }
+        }
+    }
+    private fun login(userData: UserData) {
         viewModelScope.launch {
             authRepository.login(userData).collect { res ->
                 when (res) {
-                    is Response.Loading -> {
+                    is Response.Loading ->
                         _loginUiState.value = LoginUiState.Loading
-                    }
-                    is Response.Error -> {
-                        _loginUiState.value = LoginUiState.Error(res.exception.error)
-                    }
-                    is Response.Success-> {
-                        // Cast if needed, or pass the payload to Success state
-                        _loginUiState.value = LoginUiState.Success(res.data)
-                    }
+
+                    is Response.Error ->
+                        _loginUiState.value =
+                            LoginUiState.Error(res.exception.error)
+
+                    is Response.Success ->
+                        _loginUiState.value =
+                            LoginUiState.Success(res.data)
                 }
             }
         }
     }
-
-
 }

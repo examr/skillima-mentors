@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "skillima.core"
+    namespace = "skillima.mentors"
     compileSdk {
         version = release(36)
     }
@@ -45,10 +45,17 @@ android {
 dependencies {
 
 
-    implementation(project(":screens:auth"))
-    implementation(project(":screens:onboarding"))
-    implementation(project(":core:supabase"))
-    implementation(project(":data"))
+    implementation(projects.screens.auth)
+    implementation(projects.core.supabase)
+    implementation(projects.data.auth)
+    implementation(projects.screens.onboarding)
+    implementation(projects.core.supabase)
+    implementation(projects.core.datastore)
+    implementation(projects.core.utils)
+    implementation(projects.core.navigation)
+    implementation(projects.data.local)
+
+
     implementation("androidx.core:core-splashscreen:1.0.1")
 
 

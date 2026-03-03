@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "skillima.core.auth"
+    namespace = "skillima.mentors.auth"
     compileSdk {
         version = release(36)
     }
@@ -38,12 +38,15 @@ android {
 }
 
 dependencies {
+    implementation(projects.core.navigation)
+    implementation(projects.core.supabase)
+    implementation(projects.data.auth)
+    implementation(projects.core.utils)
+    implementation(projects.core.models)
+    implementation(projects.core.ui)
 
-    implementation(project(":core:supabase"))
-    implementation(project(":core:utils"))
-    implementation(project(":core:models"))
-    implementation(project(":data"))
-    implementation(project(":core:ui"))
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.core.ktx)
     implementation(libs.material)
     implementation(libs.androidx.compose.material3)

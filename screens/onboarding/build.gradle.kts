@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.skillima.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.skillima.koin)
 }
 
 android {
@@ -37,8 +38,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:ui"))
-    implementation("androidx.core:core-splashscreen:1.0.1")
+
+    implementation(projects.core.ui)
+    implementation(projects.data.local)
+    implementation(projects.core.navigation)
     //nav 3
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
