@@ -14,12 +14,16 @@ import skillima.mentors.utils.validator.EmailValidator
 import skillima.mentors.utils.validator.PasswordStrength
 import skillima.mentors.utils.validator.PasswordValidator
 import skillima.data.auth.repository.AuthRepository
+import skillima.data.local.mapper.toEntity
+import skillima.data.local.repository.UserLocalRepository
 import skillima.screens.auth.state.AuthEvents
 import skillima.screens.auth.state.LoginUiState
 import skillima.screens.auth.state.SignupUiState
 import skillima.screens.auth.state.UserInput
 class AuthViewmodel(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val userLocalRepository: UserLocalRepository
+
 ) : ViewModel() {
 
     private val _loginUiState =
@@ -133,42 +137,60 @@ class AuthViewmodel(
 
     }
 
-    private fun signup(userData: UserData){
-        viewModelScope.launch {
-            authRepository.signup(userData = userData).collect { res->
-                when(res){
-                    is Response.Error -> {
-                        _signupUiState.value = SignupUiState.Error(res.exception.error)
-                    }
-                    Response.Loading -> {
-                        _signupUiState.value = SignupUiState.Loading
-
-                    }
-                    is Response.Success-> {
-                        _signupUiState.value = SignupUiState.Success(res.data)
-
-                    }
-                }
-
-            }
-        }
-    }
     private fun login(userData: UserData) {
         viewModelScope.launch {
             authRepository.login(userData).collect { res ->
                 when (res) {
-                    is Response.Loading ->
-                        _loginUiState.value = LoginUiState.Loading
 
-                    is Response.Error ->
+                    is Response.Loading -> {
+                        _loginUiState.value = LoginUiState.Loading
+                    }
+
+                    is Response.Error -> {
                         _loginUiState.value =
                             LoginUiState.Error(res.exception.error)
+                    }
 
-                    is Response.Success ->
+                    is Response.Success -> {
+
+                        userLocalRepository.saveUser(
+                            res.data.toEntity()
+                        )
+
                         _loginUiState.value =
                             LoginUiState.Success(res.data)
+                    }
                 }
             }
         }
     }
+
+    private fun signup(userData: UserData) {
+        viewModelScope.launch {
+            authRepository.signup(userData).collect { res ->
+                when (res) {
+
+                    is Response.Loading -> {
+                        _signupUiState.value = SignupUiState.Loading
+                    }
+
+                    is Response.Error -> {
+                        _signupUiState.value =
+                            SignupUiState.Error(res.exception.error)
+                    }
+
+                    is Response.Success -> {
+
+                        userLocalRepository.saveUser(
+                            res.data.toEntity()
+                        )
+
+                        _signupUiState.value =
+                            SignupUiState.Success(res.data)
+                    }
+                }
+            }
+        }
+    }
+
 }

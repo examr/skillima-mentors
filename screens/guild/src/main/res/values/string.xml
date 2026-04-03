@@ -1,0 +1,5 @@
+<!-- res/values/strings.xml -->
+<resources>
+    <!-- Add this to your existing strings.xml -->
+    <string name="error_user_not_found">User not found. Please log in again.</string>
+</resources>

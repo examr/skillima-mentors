@@ -1,4 +1,4 @@
-package skillima.data.local
+package skillima.data.local.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -29,6 +29,9 @@ class LocalAppDataRepositoryImpl(
 
     override suspend fun setOnboardingComplete(type: String) {
         datastoreHelper.setOnboardingComplete(type)
+    }
+    override suspend fun setLoggedIn(value: Boolean) {
+        datastoreHelper.saveLoggedIn(value)
     }
 
 }

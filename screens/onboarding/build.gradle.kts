@@ -38,7 +38,8 @@ android {
 }
 
 dependencies {
-
+    //modules
+    implementation(projects.data.guild)
     implementation(projects.core.ui)
     implementation(projects.data.local)
     implementation(projects.core.navigation)

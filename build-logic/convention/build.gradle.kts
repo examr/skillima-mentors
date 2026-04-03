@@ -38,6 +38,12 @@ tasks {
 
 gradlePlugin {
     plugins {
+        register("androidRoom") {
+            id = "skillima.android.room"
+            implementationClass = "SkillimaAndroidRoomConventionPlugin"
+        }
+
+
         register("androidApplication") {
             id = "skillima.android"
             implementationClass = "AndroidApplicationConventionPlugin"

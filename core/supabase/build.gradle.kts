@@ -1,8 +1,16 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.skillima.koin)
 
+}
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
 }
 
 android {
@@ -16,6 +24,13 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+
+        buildConfigField("String", "SUPABASE_URL", "\"${localProperties.getProperty("SUPABASE_URL") ?: ""}\"")
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${localProperties.getProperty("SUPABASE_ANON_KEY") ?: ""}\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -38,15 +53,15 @@ android {
 
 dependencies {
 
-    //ktor
-    implementation(libs.ktor.client.okhttp)
-    implementation(libs.ktor.client.content.negotiation)
-    implementation(libs.ktor.serialization.kotlinx.json)
+    api(platform(libs.supabase.bom))
+    api(libs.supabase.auth)
+    api(libs.supabase.post)
+    api(libs.supabase.realtime)
+    api(libs.supabase.storage)
+    api(libs.ktor.android)
+    api(libs.ktor.core)
+    api(libs.ktor.cio)
 
-    implementation(platform(libs.supabase.bom))
-    implementation(libs.supabase.auth)
-    implementation(libs.supabase.postgrest)
-    implementation(libs.supabase.storage)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

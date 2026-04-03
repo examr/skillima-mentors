@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="request_timeout">timeout error occurred</string>
+    <string name="unknown_error">unknown error occurred</string>
+    <string name="bad_request">bad request</string>
+    <string name="unauthorized">unauthorized</string>
+    <string name="http_request_exception">exception occurred</string>
+    <string name="rest_exception">rest exception occurred</string>
+    <string name="ratelimit">rate limit</string>
+</resources>

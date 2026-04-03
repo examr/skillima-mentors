@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
-import skillima.data.local.LocalAppDataRepository
+import skillima.data.local.repository.LocalAppDataRepository
 import skillima.data.local.model.AppDataConfig
 
 class MainViewModel(

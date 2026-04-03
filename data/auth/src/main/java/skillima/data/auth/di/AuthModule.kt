@@ -6,7 +6,7 @@ import skillima.data.auth.repository.AuthRepositoryImpl
 
 val authDataModule  = module{
     single<AuthRepository> {
-        AuthRepositoryImpl(get())
+        AuthRepositoryImpl(get(),get())
     }
 
 

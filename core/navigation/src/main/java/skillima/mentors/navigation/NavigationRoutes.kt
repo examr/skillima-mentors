@@ -13,3 +13,5 @@ data object SignupScreen : Destinations
 
 data object ForgetScreen : Destinations
 data object HomeScreen : Destinations
+
+data object GuildScreen: Destinations

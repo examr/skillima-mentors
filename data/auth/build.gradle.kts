@@ -36,9 +36,10 @@ android {
 }
 
 dependencies {
+    implementation(projects.data.local)
     implementation(project(":core:utils"))
     implementation(libs.supabase.auth)
-    implementation(libs.supabase.postgrest)
+    implementation(libs.supabase.post)
     implementation(project(":core:supabase"))
     implementation(project(":core:models"))
 

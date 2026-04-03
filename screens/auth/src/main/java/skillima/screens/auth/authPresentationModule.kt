@@ -22,6 +22,6 @@ val authPresentation = module {
 
     // ViewModel DI
     single {
-        AuthViewmodel(get())
+        AuthViewmodel(get(),get())
     }
 }

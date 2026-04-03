@@ -13,4 +13,7 @@ sealed class Screen {
     @Serializable
     data object SignupScreen:Screen()
 
+    @Serializable
+    data object GuildScreen:Screen()
+
 }

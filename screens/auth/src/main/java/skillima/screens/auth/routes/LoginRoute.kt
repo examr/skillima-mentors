@@ -9,6 +9,8 @@ import skillima.mentors.navigation.SignupScreen
 import skillima.screens.auth.AuthViewmodel
 import skillima.screens.auth.screens.LoginScreen
 import  org.koin.androidx.compose.koinViewModel
+import skillima.mentors.navigation.GuildScreen
+
 @Composable
 fun LoginRoute(
     viewModel: AuthViewmodel = koinViewModel(),
@@ -23,6 +25,10 @@ fun LoginRoute(
         onEvent = viewModel::onEvent,
         navigateToSignup = {
             navigator.replaceTop(SignupScreen)
+        },
+        onSuccess = {
+            navigator.backStack.clear()
+            navigator.goTo(GuildScreen)
         }
     )
 }

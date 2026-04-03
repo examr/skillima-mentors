@@ -34,9 +34,12 @@
             <option value="$PROJECT_DIR$/core/utils" />
             <option value="$PROJECT_DIR$/data" />
             <option value="$PROJECT_DIR$/data/auth" />
+            <option value="$PROJECT_DIR$/data/guild" />
             <option value="$PROJECT_DIR$/data/local" />
+            <option value="$PROJECT_DIR$/data/user" />
             <option value="$PROJECT_DIR$/screens" />
             <option value="$PROJECT_DIR$/screens/auth" />
+            <option value="$PROJECT_DIR$/screens/guild" />
             <option value="$PROJECT_DIR$/screens/onboarding" />
           </set>
         </option>
