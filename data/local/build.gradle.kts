@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.skillima.koin)
+    alias(libs.plugins.skillima.android.room)
 }
 
 android {
@@ -36,7 +37,7 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":core:models"))
     implementation(project(":core:datastore"))
     implementation(project(":core:utils"))
     implementation(libs.androidx.core.ktx)

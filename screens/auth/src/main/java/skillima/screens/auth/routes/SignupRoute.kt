@@ -6,6 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.getKoin
+import skillima.mentors.navigation.GuildScreen
 import skillima.mentors.navigation.LoginScreen
 import skillima.mentors.navigation.Navigator
 import skillima.screens.auth.AuthViewmodel
@@ -24,6 +25,10 @@ fun SignupRoute(
         onEvent = viewModel::onEvent,
         navigateToLogin = {
             navigator.replaceTop(LoginScreen)
+        },
+        onSuccess = {
+            navigator.backStack.clear()
+           navigator.goTo(GuildScreen)
         }
     )
 

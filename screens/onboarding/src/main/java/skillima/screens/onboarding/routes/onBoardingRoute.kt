@@ -1,10 +1,8 @@
 package skillima.screens.onboarding.routes
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.getKoin
-import skillima.data.local.LocalAppDataRepository
 import skillima.mentors.navigation.Navigator
 import skillima.mentors.navigation.OnboardingScreen
 import skillima.mentors.navigation.WelcomeScreen

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.skillima.android.compose)
     alias(libs.plugins.skillima.android)
@@ -5,11 +7,15 @@ plugins {
     alias(libs.plugins.skillima.koin)
 }
 
+
+val localProperties = Properties()
+localProperties.load(rootProject.file("local.properties").inputStream())
 android {
+
     namespace = "skillima.mentors"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk { version = release(version = 36) }
+
+    buildFeatures { buildConfig = true }
 
     defaultConfig {
         applicationId = "skillima.mentors"
@@ -17,8 +23,8 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "SUPABASE_URL", "\"${localProperties["SUPABASE_URL"]}\"")
+        buildConfigField("String", "SUPABASE_ANON_KEY", "\"${localProperties["SUPABASE_ANON_KEY"]}\"")
     }
 
     buildTypes {
@@ -54,6 +60,8 @@ dependencies {
     implementation(projects.core.utils)
     implementation(projects.core.navigation)
     implementation(projects.data.local)
+    implementation(projects.screens.guild)
+    implementation(projects.data.guild)
 
 
     implementation("androidx.core:core-splashscreen:1.0.1")

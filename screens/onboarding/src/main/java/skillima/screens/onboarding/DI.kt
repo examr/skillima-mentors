@@ -1,7 +1,6 @@
 package skillima.screens.onboarding
 
 import org.koin.androidx.scope.dsl.activityRetainedScope
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.annotation.KoinExperimentalAPI
 import org.koin.dsl.module
 import org.koin.dsl.navigation3.navigation
@@ -20,6 +19,7 @@ val onboardingModule = module {
             WelcomeRoute()
         }
     }
+
 
     single { OnboardingViewModel(get()) }
 }

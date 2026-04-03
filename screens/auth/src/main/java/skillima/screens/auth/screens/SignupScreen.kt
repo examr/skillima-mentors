@@ -59,7 +59,8 @@ fun SignupScreen(
     userInput: UserInput,
     signupUiState: SignupUiState,
     onEvent: (AuthEvents) -> Unit,
-    navigateToLogin: () -> Unit
+    navigateToLogin: () -> Unit,
+    onSuccess:()-> Unit
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     var signupButtonState by remember { mutableStateOf<ButtonState>(ButtonState.Idle) }
@@ -85,7 +86,7 @@ fun SignupScreen(
             }
 
             is SignupUiState.Success -> {
-                snackBarHostState.showSnackbar("Success")
+                onSuccess()
                 signupButtonState = ButtonState.Success
 
             }

@@ -1,5 +1,6 @@
 package skillma.core.ui.design.utils
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.graphics.Color
 import skillma.core.ui.theme.Green500
 import skillma.core.ui.theme.NeutralBlack11
@@ -19,8 +20,8 @@ sealed class ButtonColor(
     data object Primary : ButtonColor(
         containerColor = Violet500,
         contentColor = NeutralBlack13,
-        disableContainerColor = NeutralWhite10,
-        disableContentColor = NeutralBlack13,
+        disableContainerColor =  Violet500.copy(alpha = 0.4f),
+        disableContentColor = NeutralBlack13.copy(0.5f),
     )
 
     data object Secondary : ButtonColor(

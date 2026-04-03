@@ -38,13 +38,14 @@ android {
 }
 
 dependencies {
+
     implementation(projects.core.navigation)
     implementation(projects.core.supabase)
     implementation(projects.data.auth)
     implementation(projects.core.utils)
     implementation(projects.core.models)
     implementation(projects.core.ui)
-
+    implementation(projects.data.local)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.core.ktx)

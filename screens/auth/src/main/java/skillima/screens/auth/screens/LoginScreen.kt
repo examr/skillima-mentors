@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import skillima.mentors.module.Role
 import skillima.mentors.module.UserData
 import skillima.screens.auth.state.AuthEvents
 import skillima.screens.auth.state.LoginUiState
@@ -57,7 +58,8 @@ fun LoginScreen(
     loginUiState: LoginUiState,
     userInput: UserInput,
     onEvent: (authEvents: AuthEvents) -> Unit,
-    navigateToSignup: () -> Unit
+    navigateToSignup: () -> Unit,
+    onSuccess: ()-> Unit
 ) {
 
     var loginButtonState by remember { mutableStateOf<ButtonState>(ButtonState.Idle) }
@@ -84,7 +86,7 @@ fun LoginScreen(
             }
 
             is LoginUiState.Success -> {
-                snackBarHostState.showSnackbar("Login Success")
+                onSuccess()
                 loginButtonState = ButtonState.Success
 
             }

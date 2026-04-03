@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.utils"
+    namespace = "skillima.core.utils"
     compileSdk {
         version = release(36)
     }
