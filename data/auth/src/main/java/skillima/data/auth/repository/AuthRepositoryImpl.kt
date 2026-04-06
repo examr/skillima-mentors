@@ -16,7 +16,7 @@ import skillima.mentors.module.UserData
 import skillima.mentors.utils.Response
 import skillima.data.auth.error.AuthError
 import skillima.data.auth.error.mapAuthError
-import skillima.data.local.repository.LocalAppDataRepository
+import skillima.data.local.repository.local.LocalAppDataRepository
 
 class AuthRepositoryImpl(
     supabaseClient: SupabaseClient,

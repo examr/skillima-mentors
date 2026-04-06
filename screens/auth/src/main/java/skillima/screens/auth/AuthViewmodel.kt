@@ -15,7 +15,7 @@ import skillima.mentors.utils.validator.PasswordStrength
 import skillima.mentors.utils.validator.PasswordValidator
 import skillima.data.auth.repository.AuthRepository
 import skillima.data.local.mapper.toEntity
-import skillima.data.local.repository.UserLocalRepository
+import skillima.data.local.repository.user.UserLocalRepository
 import skillima.screens.auth.state.AuthEvents
 import skillima.screens.auth.state.LoginUiState
 import skillima.screens.auth.state.SignupUiState
@@ -180,7 +180,6 @@ class AuthViewmodel(
                     }
 
                     is Response.Success -> {
-
                         userLocalRepository.saveUser(
                             res.data.toEntity()
                         )

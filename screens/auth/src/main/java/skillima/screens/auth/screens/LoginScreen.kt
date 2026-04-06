@@ -105,8 +105,8 @@ fun LoginScreen(
                     SkillimaLogo(
                         modifier = Modifier
                             .padding(start = 8.dp)
-                            .size(70.dp)      // controls final icon size
-                            .rotate(90f),     // horizontal brand variant
+                            .size(70.dp)
+                            .rotate(90f),
                         gridSize = 1,
                         cubeCount = 4
                     )
