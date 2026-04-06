@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import skillima.data.local.repository.LocalAppDataRepository
+import skillima.data.local.repository.local.LocalAppDataRepository
 import skillima.data.local.model.AppDataConfig
 
 /**

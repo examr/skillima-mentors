@@ -5,21 +5,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import skillima.data.guild.repository.GuildRepository
-import skillima.data.local.repository.UserLocalRepository
+import skillima.data.local.repository.skills.UserSkillLocalRepository
+import skillima.data.local.repository.skills.UserSkillLocalRepositoryImpl
+import skillima.data.local.repository.user.UserLocalRepository
 import skillima.mentors.utils.Response
 import skillima.screens.guild.model.FetchGuildState
-import skillima.screens.guild.model.Guild
 import skillima.screens.guild.model.GuildEvents
 import skillima.screens.guild.model.SaveSkillsState
 import skillima.screens.guild.model.Skill
+import skillima.screens.guild.model.toUserSkillEntity
 import skillima.screens.guild.utils.toDomain
 
 class GuildViewModel(
     private val guildRepository: GuildRepository,
-    private val userLocalRepository: UserLocalRepository
+    private val userLocalRepository: UserLocalRepository,
+    private val userSkillLocalRepository: UserSkillLocalRepository
 ) : ViewModel() {
 
     private val _fetchGuildState = MutableStateFlow<FetchGuildState>(FetchGuildState.Idle)
@@ -49,8 +51,7 @@ class GuildViewModel(
 
     private var skillOffset: Long = 0
     private var isSkillLastPage = false
-    private var isSkillFetching = false  // ✅ Fix #3: separate flag for skills
-
+    private var isSkillFetching = false
     private var currentPageSize: Long = 6
 
     fun onEvent(event: GuildEvents) {
@@ -107,16 +108,13 @@ class GuildViewModel(
         }
     }
 
-    // -------------------------
-    // Guild Pagination + Search
-    // -------------------------
 
     private fun resetGuildPagination() {
         currentOffset = 0
         totalCount = 0
         isLastPage = false
         _isFetching.value = false
-        _fetchGuildState.value = FetchGuildState.Idle  // ✅ Fix #4: clears old list
+        _fetchGuildState.value = FetchGuildState.Idle
     }
 
     private fun fetchGuild() {
@@ -143,9 +141,10 @@ class GuildViewModel(
                     is Response.Success -> {
                         totalCount = res.data.firstOrNull()?.totalCount ?: 0L
                         val newGuilds = res.data.toDomain()
-                        val existing = (_fetchGuildState.value as? FetchGuildState.Success)?.data ?: emptyList()
+                        val existing = (_fetchGuildState.value as? FetchGuildState.Success)?.data
+                            ?: emptyList()
 
-                        // ✅ Fix #1: deduplicate guilds
+
                         _fetchGuildState.value = FetchGuildState.Success(
                             (existing + newGuilds).distinctBy { it.id }
                         )
@@ -174,9 +173,10 @@ class GuildViewModel(
                     is Response.Success -> {
                         totalCount = res.data.firstOrNull()?.totalCount ?: 0L
                         val newGuilds = res.data.toDomain()
-                        val existing = (_fetchGuildState.value as? FetchGuildState.Success)?.data ?: emptyList()
+                        val existing = (_fetchGuildState.value as? FetchGuildState.Success)?.data
+                            ?: emptyList()
 
-                        // ✅ Fix #1: deduplicate guilds
+
                         _fetchGuildState.value = FetchGuildState.Success(
                             (existing + newGuilds).distinctBy { it.id }
                         )
@@ -197,19 +197,16 @@ class GuildViewModel(
         }
     }
 
-    // -------------------------
-    // Skills Pagination + Search
-    // -------------------------
 
     private fun resetSkillPagination() {
         skillOffset = 0
         isSkillLastPage = false
-        isSkillFetching = false  // ✅ Fix #3
+        isSkillFetching = false
         _skillsState.value = emptyList()
     }
 
     private fun fetchSkills() {
-        if (isSkillFetching || isSkillLastPage) return  // ✅ Fix #3
+        if (isSkillFetching || isSkillLastPage) return
 
         viewModelScope.launch {
             isSkillFetching = true
@@ -223,11 +220,13 @@ class GuildViewModel(
                         _skillsState.value = (_skillsState.value + newSkills).distinctBy { it.id }
                         skillOffset += newSkills.size
                         if (newSkills.size < currentPageSize) isSkillLastPage = true
-                        isSkillFetching = false  // ✅ Fix #3
+                        isSkillFetching = false
                     }
+
                     is Response.Error -> {
-                        isSkillFetching = false  // ✅ Fix #3: release on error too
+                        isSkillFetching = false
                     }
+
                     else -> {}
                 }
             }
@@ -235,8 +234,7 @@ class GuildViewModel(
     }
 
     private fun searchSkills() {
-        if (isSkillFetching || isSkillLastPage) return  // ✅ Fix #3
-
+        if (isSkillFetching || isSkillLastPage) return
         viewModelScope.launch {
             isSkillFetching = true
             guildRepository.searchSkills(
@@ -247,24 +245,22 @@ class GuildViewModel(
                 when (res) {
                     is Response.Success -> {
                         val newSkills = res.data.map { it.toDomain() }
-                        // ✅ Fix #2: added distinctBy like fetchSkills
                         _skillsState.value = (_skillsState.value + newSkills).distinctBy { it.id }
                         skillOffset += newSkills.size
                         if (newSkills.size < currentPageSize) isSkillLastPage = true
-                        isSkillFetching = false  // ✅ Fix #3
+                        isSkillFetching = false
                     }
+
                     is Response.Error -> {
-                        isSkillFetching = false  // ✅ Fix #3
+                        isSkillFetching = false
                     }
+
                     else -> {}
                 }
             }
         }
     }
 
-    // -------------------------
-    // Save Skills
-    // -------------------------
 
     private fun saveUserSkills() {
         val guilds = (_fetchGuildState.value as? FetchGuildState.Success)?.data ?: emptyList()
@@ -282,7 +278,6 @@ class GuildViewModel(
             val userId = userLocalRepository.getUserId()
 
             if (userId == null) {
-                // ✅ Fix #5: use a plain string instead of R.string in ViewModel
                 _saveSkillsState.value = SaveSkillsState.Error(R.string.error_user_not_found)
                 return@launch
             }
@@ -294,7 +289,25 @@ class GuildViewModel(
             ).collect { response ->
                 when (response) {
                     is Response.Loading -> _saveSkillsState.value = SaveSkillsState.Loading
-                    is Response.Success -> _saveSkillsState.value = SaveSkillsState.Success
+
+                    is Response.Success -> {
+                        val skillsFromGuilds = guilds
+                            .filter { it.id in _selectedGuilds.value }
+                            .flatMap { it.skills }
+
+                        val skillsFromSkills = _skillsState.value
+                            .filter { it.id in _selectedSkills.value }
+
+                        val allSkills = (skillsFromGuilds + skillsFromSkills)
+                            .distinctBy { it.id }
+                            .map { it.toUserSkillEntity() }
+
+                        // Save to Room after Supabase confirms
+                        userSkillLocalRepository.saveSkills(allSkills)
+
+                        _saveSkillsState.value = SaveSkillsState.Success
+                    }
+
                     is Response.Error -> _saveSkillsState.value =
                         SaveSkillsState.Error(response.exception.error)
                 }

@@ -1,4 +1,4 @@
-package skillima.data.local.repository
+package skillima.data.local.repository.local
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine

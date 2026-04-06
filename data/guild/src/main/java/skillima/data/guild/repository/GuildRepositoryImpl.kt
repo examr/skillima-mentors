@@ -21,7 +21,8 @@ import skillima.mentors.module.SkillDto
 import skillima.mentors.utils.Response
 
 class GuildRepositoryImpl(
-    private val supabaseClient: SupabaseClient
+    private val supabaseClient: SupabaseClient,
+
 ) : GuildRepository {
 
     override suspend fun fetchGuilds(

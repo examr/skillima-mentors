@@ -158,7 +158,7 @@ fun SignupScreen(
                     },
                     navigationIcon = {
                         Icon(
-                            painter = painterResource(CommonRes.drawable.ic_email),
+                            painter = painterResource(CommonRes.drawable.ic_user),
                             contentDescription = null,
                             tint = NeutralBlack9
                         )
