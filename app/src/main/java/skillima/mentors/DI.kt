@@ -15,6 +15,7 @@ import skillima.mentors.supabase.di.supabaseModule
 import skillima.mentors.utils.utilsModule
 import skillima.screens.auth.authPresentation
 import skillima.screens.guild.guildPresentation
+import skillima.screens.home.homeModule
 import skillima.screens.onboarding.onboardingModule
 
 val appModules = module {
@@ -29,7 +30,8 @@ val appModules = module {
         supabaseModule,
         localDatabaseModule,
         guildPresentation,
-        guildDataModule
+        guildDataModule,
+        homeModule
 
 
 

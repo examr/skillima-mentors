@@ -80,7 +80,7 @@ class Navigator(
 
     private fun determineDestination(data: AppDataConfig): Destinations {
         return when {
-            data.loggedIn -> GuildScreen
+            data.loggedIn -> HomeScreen
             data.firstTime -> OnboardingScreen
             else -> SignupScreen
         }

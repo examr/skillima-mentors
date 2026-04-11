@@ -62,6 +62,7 @@ dependencies {
     implementation(projects.data.local)
     implementation(projects.screens.guild)
     implementation(projects.data.guild)
+    implementation(projects.screens.home)
 
 
     implementation("androidx.core:core-splashscreen:1.0.1")
