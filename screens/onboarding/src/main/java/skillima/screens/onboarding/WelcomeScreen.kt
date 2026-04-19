@@ -22,11 +22,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import skillma.core.ui.design.button.SkillimaButton
-import skillma.core.ui.design.logo.SkillimaLogo
+import skillma.core.ui.design.button.Button
+import skillma.core.ui.design.logo.AnimatedIsometricCubes
+import skillma.core.ui.design.logo.IsometricCubes
 import skillma.core.ui.design.utils.ButtonColor
-
-import skillma.core.ui.design.utils.ButtonState
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
@@ -59,19 +58,20 @@ fun WelcomeScreen(
                 modifier = Modifier
                     .align(Alignment.Center),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
 
 
                 Row(
                     modifier = Modifier.width(with(LocalDensity.current) { taglineWidth.toDp() }),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Start
+                    horizontalArrangement = Arrangement.Center
                 ) {
-                    SkillimaLogo(
-                        modifier = Modifier
-                            .width(50.dp)
-                            .height(100.dp)
+                    AnimatedIsometricCubes(
+                        gridSize = 1,
+                        cubeCount = 4,
+                        cubeSize = 70f,
+                        animationDurationMillis = 10000
                     )
 
                     Spacer(modifier = Modifier.width(24.dp))
@@ -99,23 +99,11 @@ fun WelcomeScreen(
                     .align(Alignment.BottomCenter),
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                SkillimaButton(
-                    state = ButtonState.Idle,
-                    onClick = {},
-                    colors = ButtonColor.Secondary,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                ) {
-                    Text(text = "Continue With Google")
-                }
-
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    SkillimaButton(
-                        state = ButtonState.Idle,
+                    Button(
                         onClick = { navigateToSignup() },
                         colors = ButtonColor.Secondary,
                         modifier = Modifier
@@ -125,8 +113,7 @@ fun WelcomeScreen(
                         Text(text = "Sign up")
                     }
 
-                    SkillimaButton(
-                        state = ButtonState.Idle,
+                    Button(
                         onClick = { navigateToLogin() },
                         colors = ButtonColor.Primary,
                         modifier = Modifier
