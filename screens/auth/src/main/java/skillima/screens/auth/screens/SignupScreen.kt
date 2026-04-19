@@ -1,16 +1,16 @@
 package skillima.screens.auth.screens
 
-import androidx.compose.animation.animateContentSize
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +18,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,12 +27,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
@@ -42,16 +40,18 @@ import skillima.screens.auth.state.AuthEvents
 import skillima.screens.auth.state.SignupUiState
 import skillima.screens.auth.state.UserInput
 import skillima.screens.auth.utils.toSingleLineError
-import skillma.core.ui.design.button.SkillimaButton
+import skillma.core.ui.design.button.Button
 import skillma.core.ui.design.input.SkillimaPasswordTextField
 import skillma.core.ui.design.input.SkillimaTextField
-import skillma.core.ui.design.logo.SkillimaLogo
+import skillma.core.ui.design.logo.IsometricCubes
 import skillma.core.ui.design.utils.ButtonColor
 import skillma.core.ui.design.utils.ButtonState
 import skillma.core.ui.design.utils.TextFieldColors
 import skillma.core.ui.theme.NeutralBlack9
+import skillma.core.ui.theme.NeutralWhite9
 import skillima.core.ui.R as CommonRes
 
+@SuppressLint("LocalContextGetResourceValueCall")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignupScreen(
@@ -60,109 +60,97 @@ fun SignupScreen(
     signupUiState: SignupUiState,
     onEvent: (AuthEvents) -> Unit,
     navigateToLogin: () -> Unit,
-    onSuccess:()-> Unit
+    onSuccess: () -> Unit
 ) {
-    val snackBarHostState = remember { SnackbarHostState() }
+    val snackBarHostState by remember { mutableStateOf(SnackbarHostState()) }
     var signupButtonState by remember { mutableStateOf<ButtonState>(ButtonState.Idle) }
-    val googleButtonState by remember { mutableStateOf(ButtonState.Idle) }
     val context = LocalContext.current
+    var isFormDisabled by remember { mutableStateOf(false) }
+
     LaunchedEffect(signupUiState) {
         when (signupUiState) {
             is SignupUiState.Error -> {
                 signupButtonState = ButtonState.Idle
                 val msg = context.getString(signupUiState.errorMessage)
                 snackBarHostState.showSnackbar(msg)
-
             }
-
             SignupUiState.Idle -> {
                 signupButtonState = ButtonState.Idle
-
             }
-
             SignupUiState.Loading -> {
                 signupButtonState = ButtonState.Loading
-
             }
-
             is SignupUiState.Success -> {
                 onSuccess()
                 signupButtonState = ButtonState.Success
-
             }
         }
     }
 
+    LaunchedEffect(signupButtonState) {
+        isFormDisabled = signupButtonState == ButtonState.Loading
+    }
+
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        snackbarHost = { SnackbarHost(snackBarHostState) },
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
+                navigationIcon = {
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        IsometricCubes(
+                            gridSize = 1,
+                            cubeCount = 4,
+                            cubeSize = 70f,
+                            horizontal = true,
+                        )
+                    }
+                },
                 title = {},
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background
-                ),
-                navigationIcon = {
-                    SkillimaLogo(
-                        modifier = Modifier
-                            .padding(start = 8.dp)
-                            .size(70.dp)
-                            .rotate(90f),
-                        gridSize = 1,
-                        cubeCount = 4
-                    )
-                }
+                )
             )
-        }
-    ) { padding ->
-
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-                .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(50.dp)
+        },
+        snackbarHost = { SnackbarHost(snackBarHostState) }
+    ) { innerPadding ->
+        androidx.compose.foundation.layout.Column(
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            modifier = modifier
+                .padding(innerPadding)
+                .padding(10.dp)
         ) {
+            Text(
+                text = "Sign up",
+                style = MaterialTheme.typography.headlineMedium,
+                color = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Text(
+                text = "Welcome to Skillima, Hope you find it easy",
+                style = MaterialTheme.typography.bodyMedium,
+                color = NeutralWhite9,
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(2.dp),
+                modifier = Modifier.fillMaxWidth().padding(1.dp)
             ) {
-                Text(
-                    text = "Sign up",
-                    style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "Welcome to skillima, hope you find it easy",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.surfaceVariant
-                )
-            }
-
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(15.dp)
-            ) {
-
                 SkillimaTextField(
-                    color = TextFieldColors.Primary,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .animateContentSize(),
                     value = userInput.name,
+                    onValueChange = { onEvent(AuthEvents.OnNameChange(it)) },
                     hintValue = "Name",
-                    onValueChange = {
-                        onEvent(AuthEvents.OnNameChange(it))
-                    },
                     navigationIcon = {
                         Icon(
-                            painter = painterResource(CommonRes.drawable.ic_user),
-                            contentDescription = null,
+                            painter = painterResource(id = CommonRes.drawable.ic_user),
+                            contentDescription = "Name",
                             tint = NeutralBlack9
                         )
                     },
+                    color = TextFieldColors.Primary,
+                    modifier = Modifier.fillMaxWidth().padding(5.dp),
                     supportingText = {
                         if (userInput.nameInteracted && !userInput.isNameValid) {
                             Text(
@@ -177,22 +165,18 @@ fun SignupScreen(
                 )
 
                 SkillimaTextField(
-                    color = TextFieldColors.Primary,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .animateContentSize(),
                     value = userInput.email,
-                    hintValue = "Email Address",
-                    onValueChange = {
-                        onEvent(AuthEvents.OnEmailChange(it))
-                    },
+                    onValueChange = { onEvent(AuthEvents.OnEmailChange(it)) },
+                    hintValue = "Email",
                     navigationIcon = {
                         Icon(
-                            painter = painterResource(CommonRes.drawable.ic_email),
-                            contentDescription = null,
+                            painter = painterResource(id = CommonRes.drawable.ic_email),
+                            contentDescription = "Email Address",
                             tint = NeutralBlack9
                         )
                     },
+                    color = TextFieldColors.Primary,
+                    modifier = Modifier.fillMaxWidth().padding(5.dp),
                     supportingText = {
                         if (userInput.emailInteracted && !userInput.isEmailValid) {
                             Text(
@@ -207,27 +191,21 @@ fun SignupScreen(
                 )
 
                 SkillimaPasswordTextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .animateContentSize(),
-                    color = TextFieldColors.Primary,
                     value = userInput.password,
+                    onValueChange = { onEvent(AuthEvents.OnPasswordChange(it)) },
                     hintValue = "Password",
-                    onValueChange = {
-                        onEvent(AuthEvents.OnPasswordChange(it))
-                    },
                     navigationIcon = {
                         Icon(
-                            painter = painterResource(CommonRes.drawable.ic_lock),
-                            contentDescription = null,
+                            painter = painterResource(id = CommonRes.drawable.ic_lock),
+                            contentDescription = "Password",
                             tint = NeutralBlack9
                         )
                     },
+                    color = TextFieldColors.Primary,
+                    modifier = Modifier.fillMaxWidth().padding(5.dp),
                     supportingText = {
                         if (userInput.passwordInteracted && !userInput.isPasswordValid) {
-                            val error =
-                                userInput.passwordValidation.toSingleLineError()
-
+                            val error = userInput.passwordValidation.toSingleLineError()
                             if (error.isNotEmpty()) {
                                 Text(
                                     text = error,
@@ -242,66 +220,37 @@ fun SignupScreen(
                 )
             }
 
-            Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(15.dp)
-            ) {
-
-                SkillimaButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
-                    enabled = userInput.isSignupValid(),
-                    state = signupButtonState,
-                    colors = ButtonColor.Primary,
-                    onClick = {
-                        onEvent(
-                            AuthEvents.Signup(
-                                UserData(
-                                    email = userInput.email,
-                                    password = userInput.password,
-                                    name = userInput.name
-                                )
+            Button(
+                onClick = {
+                    onEvent(
+                        AuthEvents.Signup(
+                            UserData(
+                                email = userInput.email,
+                                password = userInput.password,
+                                name = userInput.name
                             )
                         )
-                    }
-                ) {
-                    Text(
-                        text = "Create Account",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.background
                     )
-                }
-
-                SkillimaButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp),
-                    state = googleButtonState,
-                    colors = ButtonColor.Secondary,
-                    onClick = {}
-                ) {
-                    Text(
-                        text = "Continue with Google",
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-                }
+                },
+                state = signupButtonState,
+                colors = ButtonColor.Primary,
+                enabled = userInput.isSignupValid(),
+                modifier = Modifier.fillMaxWidth().height(65.dp).padding(5.dp)
+            ) {
+                Text(text = "Create my Account", style = MaterialTheme.typography.titleMedium)
             }
 
             Spacer(modifier = Modifier.weight(1f))
 
             val annotatedString = buildAnnotatedString {
-                append("Already have an account? ")
-                withStyle(
-                    style = SpanStyle(color = MaterialTheme.colorScheme.primary),
-                ) {
-                    append("Login")
+                append("already have an account? ")
+                withStyle(style = SpanStyle(color = MaterialTheme.colorScheme.primary)) {
+                    append("Login ")
                 }
             }
-
             Text(
                 text = annotatedString,
+                textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -310,9 +259,8 @@ fun SignupScreen(
                         interactionSource = remember { MutableInteractionSource() }
                     ) {
                         navigateToLogin()
-                    },
-
-                )
+                    }
+            )
         }
     }
 }
