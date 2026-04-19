@@ -1,0 +1,4 @@
+<resources>
+    <string name="mentor_profile_bio_required">Bio is required</string>
+    <string name="mentor_profile_save_failed">Failed to save profile</string>
+</resources>
