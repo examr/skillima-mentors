@@ -48,7 +48,7 @@ fun OnBoardingScreen(
     val pagerState = rememberPagerState(initialPage = 0) { pages.size }
     val scope = rememberCoroutineScope()
 
-    LaunchedEffect(true) {
+    LaunchedEffect(Unit) {
         if (showLogin || pagerState.currentPage > 0) {
             showLogin = false
             pagerState.scrollToPage(0)
