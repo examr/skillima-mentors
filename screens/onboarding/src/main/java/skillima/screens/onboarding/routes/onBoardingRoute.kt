@@ -16,12 +16,12 @@ fun OnBoardingRoute(navigator: Navigator = getKoin().get()) {
 
     OnBoardingScreen(
         onLoginClick = {
-            viewModel.setOnboardingComplete()
+          //  viewModel.setOnboardingComplete()
             navigator.goTo(LoginScreen)
             navigator.backStack.remove(OnboardingScreen)
         },
         onSignupClick = {
-            viewModel.setOnboardingComplete()
+          //  viewModel.setOnboardingComplete()
             navigator.goTo(SignupScreen)
             navigator.backStack.remove(OnboardingScreen)
         }

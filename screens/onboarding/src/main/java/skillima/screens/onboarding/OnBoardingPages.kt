@@ -23,7 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import skillma.core.ui.design.button.Button
+import skillma.core.ui.design.button.SkillimaButton
 import skillma.core.ui.design.logo.AnimatedIsometricCubes
 import skillma.core.ui.design.logo.SingleActiveCube
 import skillma.core.ui.design.utils.ButtonColor
@@ -103,7 +103,7 @@ fun OnBoardingFinalScreen(
                 horizontalArrangement = Arrangement.spacedBy(5.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Button(
+                SkillimaButton(
                     onClick = onSignupClick,
                     colors = ButtonColor.Secondary,
                     modifier = Modifier
@@ -113,7 +113,7 @@ fun OnBoardingFinalScreen(
                     Text("Sign Up")
                 }
 
-                Button(
+                SkillimaButton(
                     onClick = onLoginClick,
                     colors = ButtonColor.Primary,
                     modifier = Modifier

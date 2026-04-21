@@ -38,16 +38,17 @@ class MainActivity : ComponentActivity(),AndroidScopeComponent {
         var uiState: MainActivityState by mutableStateOf(MainActivityState.Loading)
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mainViewModel.mainUIState.onEach { uiState = it }.collect()
+                mainViewModel.mainUIState.onEach { state ->
+                    if (state is MainActivityState.Success) {
+                        navigator.initialize(state.userData)
+                    }
+                    uiState = state
+                }.collect()
             }
         }
 
-
         splashScreen.setKeepOnScreenCondition {
-            when (uiState) {
-                MainActivityState.Loading -> true
-                else -> false
-            }
+            uiState is MainActivityState.Loading
         }
 
 
@@ -55,13 +56,14 @@ class MainActivity : ComponentActivity(),AndroidScopeComponent {
         setContent {
             SkillimaMentorsTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    NavDisplay(
-                        backStack = navigator.backStack,
-                        modifier = Modifier.padding(innerPadding),
-                        onBack = { navigator.goBack() },
-                        entryProvider = getEntryProvider(),
-
-                    )
+                    if (navigator.isReady) {
+                        NavDisplay(
+                            backStack = navigator.backStack,
+                            modifier = Modifier.padding(innerPadding),
+                            onBack = { navigator.goBack() },
+                            entryProvider = getEntryProvider(),
+                        )
+                    }
                 }
             }
         }

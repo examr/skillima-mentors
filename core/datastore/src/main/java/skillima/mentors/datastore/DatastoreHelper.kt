@@ -21,6 +21,7 @@ class DatastoreHelper(private val context: Context) {
             val LOGIN_TIMESTAMP = stringPreferencesKey("LOGIN_TIMESTAMP")
             val APP_THEME = stringPreferencesKey("APP_THEME")
             val IS_ONBOARDING_COMPLETE = booleanPreferencesKey("IS_ONBOARDING_COMPLETE")
+            val IS_GUILD_SELECTION_COMPLETE = booleanPreferencesKey("IS_GUILD_SELECTION_COMPLETE")
             val ONBOARDING_ACCOUNT_TYPE =
                 stringPreferencesKey("ONBOARDING_ACCOUNT_TYPE")
         }
@@ -42,6 +43,7 @@ class DatastoreHelper(private val context: Context) {
 
 
     val isOnboardingCompleteFlow : Flow<Boolean> = context.userPreferences.data.map { it[SessionKeys.IS_ONBOARDING_COMPLETE] == true }
+    val isGuildSelectionCompleted : Flow<Boolean> = context.userPreferences.data.map { it[SessionKeys.IS_GUILD_SELECTION_COMPLETE] == true }
 
     val onboardingAccountTypeFlow : Flow<String> = context.userPreferences.data.map { it[SessionKeys.ONBOARDING_ACCOUNT_TYPE] ?: "GUEST" }
 

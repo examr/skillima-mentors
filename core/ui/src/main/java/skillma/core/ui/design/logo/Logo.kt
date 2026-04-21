@@ -5,6 +5,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,6 +14,8 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import skillma.core.ui.theme.Violet400
 import skillma.core.ui.theme.Violet500
@@ -26,6 +29,115 @@ import kotlin.math.min
 enum class LogoOrientation {
     Vertical,
     Horizontal
+}
+
+@Composable
+fun IsometricCubes(
+    modifier: Modifier = Modifier,
+    gridSize: Int = 3,
+    cubeCount: Int = 3,
+    cubeSize: Float = 141f,
+    horizontal: Boolean = false,
+    topColor: Color = Violet500,
+    leftColor: Color = Violet600,
+    rightColor: Color = Violet700,
+    bottomColor: Color = Violet800,
+    backLeftColor: Color = Violet400,
+    backRightColor: Color = Violet900
+) {
+    val spacingRatio    = 0.8051f
+    val topHeightRatio  = 0.2888f
+    val sideHeightRatio = 0.5775f
+
+    val cubeSpacing    = cubeSize * spacingRatio
+    val topHeight      = cubeSize * topHeightRatio
+    val fullCubeHeight = (topHeight * 2) + (cubeSize * sideHeightRatio)
+
+    // Natural size of the vertical layout
+    val naturalW = with(LocalDensity.current) {
+        ((cubeSize / 2f) * gridSize + cubeSize).toDp()
+    }
+    val naturalH = with(LocalDensity.current) {
+        ((cubeSpacing * (cubeCount - 1)) + fullCubeHeight + (gridSize - 1) * 2 * topHeight).toDp()
+    }
+
+    // When horizontal: the layout box must be (naturalH x naturalW)
+    // so the rotated content fits without clipping
+    val layoutModifier = if (horizontal) {
+        modifier
+            .size(width = naturalH, height = naturalW)   // swapped!
+            .graphicsLayer { rotationZ = 90f }           // rotate visually
+    } else {
+        modifier.size(width = naturalW, height = naturalH)
+    }
+
+    Canvas(modifier = layoutModifier) {
+        drawAllCubes(
+            drawWidth   = size.width,
+            drawHeight  = size.height,
+            gridSize    = gridSize,
+            cubeCount   = cubeCount,
+            cubeSize    = cubeSize,
+            topColor        = topColor,
+            leftColor       = leftColor,
+            rightColor      = rightColor,
+            bottomColor     = bottomColor,
+            backLeftColor   = backLeftColor,
+            backRightColor  = backRightColor
+        )
+    }
+}
+
+private fun DrawScope.drawAllCubes(
+    drawWidth: Float,
+    drawHeight: Float,
+    gridSize: Int,
+    cubeCount: Int,
+    cubeSize: Float,
+    topColor: Color,
+    leftColor: Color,
+    rightColor: Color,
+    bottomColor: Color,
+    backLeftColor: Color,
+    backRightColor: Color
+) {
+    val spacingRatio    = 0.8051f
+    val topHeightRatio  = 0.2888f
+    val sideHeightRatio = 0.5775f
+
+    val cubeSpacing    = cubeSize * spacingRatio
+    val topHeight      = cubeSize * topHeightRatio
+    val fullCubeHeight = (topHeight * 2) + (cubeSize * sideHeightRatio)
+
+    val centerX              = drawWidth / 2
+    val singleStackHeight    = (cubeSpacing * (cubeCount - 1)) + fullCubeHeight
+    val gridVerticalOffset   = (gridSize - 1) * 2 * topHeight
+    val totalStructureHeight = singleStackHeight + gridVerticalOffset
+    val startY               = ((drawHeight - totalStructureHeight) / 2f) + topHeight
+
+    for (row in 0 until gridSize) {
+        for (col in 0 until gridSize) {
+            val gridOffsetX = (row - col) * (cubeSize / 2f)
+            val gridOffsetY = (row + col) * topHeight
+
+            for (i in (cubeCount - 1) downTo 0) {
+                drawProjectedCubes(
+                    centerX         = centerX + gridOffsetX,
+                    centerY         = startY + gridOffsetY + (i * cubeSpacing),
+                    cubeSize        = cubeSize,
+                    angleRad        = (Math.PI / 4).toFloat(),
+                    topHeightRatio  = topHeightRatio,
+                    sideHeightRatio = sideHeightRatio,
+                    topColor        = topColor,
+                    leftColor       = leftColor,
+                    rightColor      = rightColor,
+                    bottomColor     = bottomColor,
+                    backLeftColor   = backLeftColor,
+                    backRightColor  = backRightColor
+                )
+            }
+        }
+    }
 }
 
 @Composable

@@ -3,7 +3,9 @@ package skillma.core.ui.theme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import skillima.core.ui.R
 
+typealias CommonDrawable = R.drawable
 private val AppDarkColorScheme = darkColorScheme(
     primary = Violet500,
     onPrimary = NeutralBlack13,         // readable on bright green

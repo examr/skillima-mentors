@@ -76,6 +76,7 @@ class AuthRepositoryImpl(
             localAppDataRepository.setLoggedIn(true)
             emit(Response.Success(resolvedUser))
         }.onFailure { e ->
+            Log.i("TAG", "signup: $e")
             when (e) {
                 is AuthRestException -> emit(Response.Error(mapAuthError(e.error)))
                 else -> emit(Response.Error(AuthError.Unknown))

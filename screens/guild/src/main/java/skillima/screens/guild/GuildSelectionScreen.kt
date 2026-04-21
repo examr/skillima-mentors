@@ -1,7 +1,5 @@
 package skillima.screens.guild
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
@@ -11,27 +9,50 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.lazy.grid.itemsIndexed
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.CircularWavyProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,13 +68,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import skillima.screens.guild.model.FetchGuildState
-import skillima.screens.guild.model.GuildEvents
 import skillima.screens.guild.model.Guild
+import skillima.screens.guild.model.GuildEvents
 import skillima.screens.guild.model.SaveSkillsState
 import skillima.screens.guild.model.Skill
 import skillma.core.ui.design.button.SkillimaButton
 import skillma.core.ui.design.input.SkillimaTextField
-import skillma.core.ui.design.logo.SkillimaLogo
 import skillma.core.ui.design.utils.ButtonColor
 import skillma.core.ui.design.utils.ButtonState
 import skillma.core.ui.theme.NeutralBlack12
@@ -61,6 +81,7 @@ import skillma.core.ui.theme.NeutralBlack5
 import skillma.core.ui.theme.NeutralBlack9
 
 private enum class ScreenMode { GUILD_SELECTION, SKILL_SELECTION }
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun GuildSelectionScreen(
@@ -70,7 +91,7 @@ fun GuildSelectionScreen(
     selectedSkills: Set<String>,
     onEvent: (GuildEvents) -> Unit,
     isFetching: Boolean,
-    saveSkillsState: SaveSkillsState
+    saveSkillsState: SaveSkillsState,
 ) {
     var buttonState by remember { mutableStateOf<ButtonState>(ButtonState.Idle) }
     var search by remember { mutableStateOf("") }
@@ -101,6 +122,7 @@ fun GuildSelectionScreen(
                 val message = context.getString(saveSkillsState.errorMessage)
                 snackBarHostState.showSnackbar(message)
             }
+
             is SaveSkillsState.Success -> buttonState = ButtonState.Success
             is SaveSkillsState.Loading -> buttonState = ButtonState.Loading
             SaveSkillsState.Idle -> Unit
@@ -115,14 +137,17 @@ fun GuildSelectionScreen(
                 val message = context.getString(fetchedGuilds.errorMessage)
                 snackBarHostState.showSnackbar(message)
             }
+
             FetchGuildState.Idle -> {
                 isLoading = false
                 isFetchingMore = false
             }
+
             FetchGuildState.Loading -> {
                 if (guilds.isEmpty()) isLoading = true
                 else isFetchingMore = true
             }
+
             is FetchGuildState.Success -> {
                 isLoading = false
                 isFetchingMore = false
@@ -135,7 +160,9 @@ fun GuildSelectionScreen(
         Scaffold(
             snackbarHost = { SnackbarHost(snackBarHostState) },
             containerColor = MaterialTheme.colorScheme.background,
-            topBar = { /* KEEP YOUR TOP BAR SAME */ },
+            topBar = {
+                Box(modifier = Modifier.fillMaxWidth())
+            },
             bottomBar = {
                 Column(
                     modifier = Modifier
@@ -167,7 +194,9 @@ fun GuildSelectionScreen(
                         enabled = isJourneyEnabled && buttonState == ButtonState.Idle,
                         content = { Text("Start Journey") },
                         colors = ButtonColor.Primary,
-                        modifier = Modifier.fillMaxWidth().height(52.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp)
                     )
                 }
             }
@@ -235,7 +264,7 @@ private fun GuildSelectionContent(
     onLoadMore: () -> Unit,
     guilds: List<Guild>,
     selectedGuilds: Set<String>,
-    onGuildToggle: (String) -> Unit
+    onGuildToggle: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -342,7 +371,7 @@ private fun SkillSelectionContent(
     onSkillToggle: (String) -> Unit,
     onLoadMore: () -> Unit,
     isLoading: Boolean,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
 ) {
     val gridState = rememberLazyGridState()
 
@@ -442,7 +471,7 @@ private fun SkillSelectionContent(
 fun SkillGridItem(
     skill: Skill,
     isSelected: Boolean,
-    onToggle: () -> Unit
+    onToggle: () -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -515,22 +544,20 @@ fun GuildCard(
     guild: Guild,
     isSelected: Boolean,
     isDisabled: Boolean,
-    onToggle: () -> Unit
+    onToggle: () -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(10.dp))
             .background(
                 if (isDisabled) NeutralBlack12.copy(alpha = 0.4f) else NeutralBlack12
             )
             .then(
                 if (isSelected) Modifier.border(
                     width = 1.dp,
-                    color = MaterialTheme.colorScheme.primary,
-                    shape = RoundedCornerShape(10.dp)
+                    color = MaterialTheme.colorScheme.primary
                 ) else Modifier
             )
             .clickable(enabled = !isDisabled) { onToggle() }
@@ -576,12 +603,13 @@ fun GuildCard(
                 }
             )
         }
-
-        HorizontalDivider(
-            thickness = Dp.Hairline,
-            color = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
-            else NeutralBlack9
-        )
+        AnimatedVisibility(visible = !expanded) {
+            HorizontalDivider(
+                thickness = Dp.Hairline,
+                color = if (isSelected) MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+                else NeutralBlack9
+            )
+        }
 
         AnimatedVisibility(
             visible = expanded,
@@ -596,16 +624,17 @@ fun GuildCard(
                 guild.skills.forEach { skill -> SkillChip(skill = skill) }
             }
         }
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            OverlappingSkills(skills = guild.skills)
-            Spacer(modifier = Modifier.weight(1f))
-            Text(
-                text = "${guild.memberCount} People Chose this",
-                style = MaterialTheme.typography.labelSmall,
-                color = NeutralBlack9,
-                fontSize = 12.sp
-            )
+        AnimatedVisibility(visible = !expanded) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                OverlappingSkills(skills = guild.skills)
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = "${guild.memberCount} People Chose this",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = NeutralBlack9,
+                    fontSize = 12.sp
+                )
+            }
         }
     }
 }

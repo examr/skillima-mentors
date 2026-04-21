@@ -22,9 +22,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import skillma.core.ui.design.button.Button
+import skillma.core.ui.design.button.SkillimaButton
 import skillma.core.ui.design.logo.AnimatedIsometricCubes
-import skillma.core.ui.design.logo.IsometricCubes
 import skillma.core.ui.design.utils.ButtonColor
 
 @OptIn(ExperimentalTextApi::class)
@@ -103,7 +102,7 @@ fun WelcomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    Button(
+                    SkillimaButton(
                         onClick = { navigateToSignup() },
                         colors = ButtonColor.Secondary,
                         modifier = Modifier
@@ -113,7 +112,7 @@ fun WelcomeScreen(
                         Text(text = "Sign up")
                     }
 
-                    Button(
+                    SkillimaButton(
                         onClick = { navigateToLogin() },
                         colors = ButtonColor.Primary,
                         modifier = Modifier

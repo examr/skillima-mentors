@@ -34,6 +34,12 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import skillma.core.ui.theme.Violet400
+import skillma.core.ui.theme.Violet500
+import skillma.core.ui.theme.Violet600
+import skillma.core.ui.theme.Violet700
+import skillma.core.ui.theme.Violet800
+import skillma.core.ui.theme.Violet900
 import kotlin.math.cos
 import kotlin.math.sin
 
@@ -49,12 +55,12 @@ fun SingleActiveCube(
     triggerRotation: Boolean = true, // <--- Trigger for single rotation
     onRotationComplete: () -> Unit = {}, // <--- Callback when single rotation completes
     // Colors
-    topColor: Color = Color(0xFF00FF48),
-    leftColor: Color = Color(0xFF00E842),
-    rightColor: Color = Color(0xFF00B533),
-    bottomColor: Color = Color(0xFF007A22),
-    backLeftColor: Color = Color(0xFF00C036),
-    backRightColor: Color = Color(0xFF00942A),
+    topColor: Color = Violet500,
+    leftColor: Color = Violet600,
+    rightColor: Color = Violet700,
+    bottomColor: Color = Violet800,
+    backLeftColor: Color = Violet400,
+    backRightColor: Color = Violet900
 ) {
     // For infinite rotation
     val infiniteTransition = rememberInfiniteTransition(label = "CubeSpinner")

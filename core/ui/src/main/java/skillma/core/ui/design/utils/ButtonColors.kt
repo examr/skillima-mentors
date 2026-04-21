@@ -19,9 +19,9 @@ sealed class ButtonColor(
 
     data object Primary : ButtonColor(
         containerColor = Violet500,
-        contentColor = NeutralBlack13,
+        contentColor = NeutralWhite4,
         disableContainerColor =  Violet500.copy(alpha = 0.4f),
-        disableContentColor = NeutralBlack13.copy(0.5f),
+        disableContentColor = NeutralWhite4.copy(0.5f),
     )
 
     data object Secondary : ButtonColor(

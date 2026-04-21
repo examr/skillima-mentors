@@ -1,5 +1,6 @@
 package skillima.screens.home
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -18,6 +19,7 @@ fun HomeRoute() {
     when (val state = uiState) {
         is HomeUiState.Loading -> {
             // Splash screen already handles initial loading
+            Text("Loading")
         }
         is HomeUiState.Success -> {
             HomeScreen(
@@ -30,6 +32,7 @@ fun HomeRoute() {
         }
         is HomeUiState.Error -> {
             // If user session is invalid, logout clears state and Navigator re-routes
+            Text("Error")
         }
     }
 }

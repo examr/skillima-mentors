@@ -40,7 +40,7 @@ import skillima.screens.auth.state.AuthEvents
 import skillima.screens.auth.state.SignupUiState
 import skillima.screens.auth.state.UserInput
 import skillima.screens.auth.utils.toSingleLineError
-import skillma.core.ui.design.button.Button
+import skillma.core.ui.design.button.SkillimaButton
 import skillma.core.ui.design.input.SkillimaPasswordTextField
 import skillma.core.ui.design.input.SkillimaTextField
 import skillma.core.ui.design.logo.IsometricCubes
@@ -220,7 +220,7 @@ fun SignupScreen(
                 )
             }
 
-            Button(
+            SkillimaButton(
                 onClick = {
                     onEvent(
                         AuthEvents.Signup(

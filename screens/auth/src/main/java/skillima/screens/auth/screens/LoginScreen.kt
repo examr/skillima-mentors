@@ -37,7 +37,7 @@ import skillima.mentors.module.UserData
 import skillima.screens.auth.state.AuthEvents
 import skillima.screens.auth.state.LoginUiState
 import skillima.screens.auth.state.UserInput
-import skillma.core.ui.design.button.Button
+import skillma.core.ui.design.button.SkillimaButton
 import skillma.core.ui.design.input.SkillimaPasswordTextField
 import skillma.core.ui.design.input.SkillimaTextField
 import skillma.core.ui.design.logo.IsometricCubes
@@ -161,7 +161,7 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth().padding(5.dp)
             )
 
-            Button(
+            SkillimaButton(
                 onClick = {
                     onEvent(
                         AuthEvents.Login(

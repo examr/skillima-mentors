@@ -1,9 +1,5 @@
 package skillima.mentors
 
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import org.koin.core.qualifier.named
 import org.koin.dsl.module
 import skillima.data.auth.di.authDataModule
 import skillima.data.guild.di.guildDataModule
@@ -38,15 +34,5 @@ val appModules = module {
 
     )
 
-    // Coroutine scope for navigation
-    factory(named("NavScope")) {
-        CoroutineScope(Dispatchers.Main.immediate + SupervisorJob())
-    }
-
-    single {
-        Navigator(
-            get(),
-            get(named("NavScope"))
-        )
-    }
+    single { Navigator() }
 }

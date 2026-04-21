@@ -3,7 +3,6 @@ package skillima.screens.auth.routes
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.getKoin
 import skillima.mentors.navigation.GuildScreen
@@ -15,7 +14,7 @@ import skillima.screens.auth.screens.SignupScreen
 @Composable
 fun SignupRoute(
     viewModel: AuthViewmodel = koinViewModel(),
-    navigator: Navigator = getKoin().get()
+    navigator: Navigator = getKoin().get(),
 ) {
     val signupUiState by viewModel.signupUiState.collectAsState()
     val userInput by viewModel.userInput.collectAsState()
@@ -28,7 +27,8 @@ fun SignupRoute(
         },
         onSuccess = {
             navigator.backStack.clear()
-           navigator.goTo(GuildScreen)
+
+            navigator.goTo(GuildScreen)
         }
     )
 

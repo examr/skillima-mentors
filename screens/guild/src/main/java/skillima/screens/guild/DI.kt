@@ -18,6 +18,4 @@ val guildPresentation = module {
     single {
         GuildViewModel(get(),get(),get())
     }
-
-
 }
