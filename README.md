@@ -1,61 +1,59 @@
+
 # Skillima
 
-Skillima is a project-based learning platform designed to help students build real-world skills through practical projects, mentorship, and collaboration.
+Skillima is a project-based learning platform that helps students build real-world skills through hands-on projects, mentorship, and collaboration.
 
 ---
 
 ## Overview
 
-Skillima bridges the gap between theoretical learning and real-world application. Instead of only consuming content, users actively work on projects, gain hands-on experience, and learn in a structured environment.
+Skillima is built to reduce the gap between theoretical learning and practical application. Instead of passively consuming content, users actively work on projects, interact with mentors, and improve through real experience.
 
-The platform supports three primary roles:
+The platform is structured around three roles:
 - Students  
 - Mentors  
-- Admin  
 
-This structure enables better organization, personalized experiences, and scalability.
+
+This modular approach makes the system scalable and easier to manage.
 
 ---
 
 ## Key Features
 
 ### Project-Based Learning
-- Work on real-world projects  
-- Learn by building practical solutions  
-- Develop industry-relevant skills  
-
-### Community Collaboration
-- Connect with other learners  
-- Share knowledge and ideas  
-- Collaborate on projects  
+- Work on practical, real-world projects  
+- Learn by building instead of only watching  
+- Gain industry-relevant experience  
 
 ### Mentorship
 - Guidance from experienced mentors  
-- Structured learning paths  
-- Feedback on work and progress  
+- Feedback on projects and progress  
+- Structured learning support  
 
-### Scalable System Design
-- Separate modules for students, mentors, and admin  
-- Easy to maintain and extend  
+### Community
+- Collaborate with other learners  
+- Share ideas and solve problems together  
+
+### Modular Architecture
+- Separate flows for students, mentors, and admin  
+- Designed for scalability and maintainability  
 
 ---
 
 ## Problem Statement
 
-Many students struggle due to:
-- Lack of practical exposure  
-- No clear direction  
+Many students face difficulties in placements due to:
+- Lack of hands-on experience  
+- No clear roadmap  
 - Limited access to mentorship  
 
-Skillima addresses these challenges by combining projects, mentorship, and community into a single platform.
+Skillima addresses these problems by combining practical projects, mentorship, and collaboration in one platform.
 
 ---
 
 ## Tech Stack
 
-> Update this section based on your actual implementation
+- **Language:** Kotlin  
+- **UI:** Jetpack Compose  
+- **Backend & Database:** Supabase  
 
-- Frontend: React / Next.js  
-- Backend: Node.js / Express  
-- Database: MongoDB / Firebase  
-- Design: Figma  
