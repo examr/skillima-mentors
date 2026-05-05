@@ -1,4 +1,3 @@
-
 # Skillima
 
 Skillima is a project-based learning platform that helps students build real-world skills through hands-on projects, mentorship, and collaboration.
@@ -12,7 +11,6 @@ Skillima is built to reduce the gap between theoretical learning and practical a
 The platform is structured around three roles:
 - Students  
 - Mentors  
-
 
 This modular approach makes the system scalable and easier to manage.
 
@@ -34,9 +32,11 @@ This modular approach makes the system scalable and easier to manage.
 - Collaborate with other learners  
 - Share ideas and solve problems together  
 
-### Modular Architecture
-- Separate flows for students, mentors, and admin  
-- Designed for scalability and maintainability  
+###Community(Feed)
+- Users can share their work, projects, and progress  
+- Discover what others are building  
+- Engage through likes, comments, or discussions  
+- Encourages consistency and peer learning  
 
 ---
 
@@ -57,3 +57,6 @@ Skillima addresses these problems by combining practical projects, mentorship, a
 - **UI:** Jetpack Compose  
 - **Backend & Database:** Supabase  
 
+---
+
+## Project Structure
