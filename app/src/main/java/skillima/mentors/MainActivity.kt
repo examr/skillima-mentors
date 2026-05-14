@@ -1,9 +1,12 @@
 package skillima.mentors
 
+import android.Manifest
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -28,13 +31,23 @@ import org.koin.core.scope.Scope
 import skillima.mentors.navigation.Navigator
 import skillma.core.ui.theme.SkillimaMentorsTheme
 
-class MainActivity : ComponentActivity(),AndroidScopeComponent {
+class MainActivity : ComponentActivity(), AndroidScopeComponent {
     val mainViewModel: MainViewModel by inject<MainViewModel>()
     val navigator: Navigator by inject()
+
+    private val requestNotificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { /* granted */ }
+
     @OptIn(KoinExperimentalAPI::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        // Request POST_NOTIFICATIONS on Android 13+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
         var uiState: MainActivityState by mutableStateOf(MainActivityState.Loading)
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {

@@ -1,31 +1,41 @@
 package skillima.data.auth.repository
 
+import android.R.attr.password
 import android.util.Log
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.exception.AuthRestException
 import io.github.jan.supabase.auth.providers.builtin.Email
+import io.github.jan.supabase.postgrest.from
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.jsonPrimitive
 import kotlinx.serialization.json.put
-import skillima.mentors.module.UserData
-import skillima.mentors.utils.Response
 import skillima.data.auth.error.AuthError
 import skillima.data.auth.error.mapAuthError
+import skillima.data.auth.model.AuthUserDTO
+import skillima.data.auth.model.UserSkillsDTO
+import skillima.data.auth.model.UserSkillsDTOItem
+import skillima.data.auth.model.toAuthUser
 import skillima.data.local.repository.local.LocalAppDataRepository
+import skillima.mentors.module.AuthResult
+import skillima.mentors.module.AuthUser
+import skillima.mentors.module.UserData
+import skillima.mentors.module.isMentorProfileComplete
+import skillima.mentors.supabase.SupabaseConstants
+import skillima.mentors.utils.Response
+import kotlin.getOrDefault
 
 class AuthRepositoryImpl(
-    supabaseClient: SupabaseClient,
-    private val localAppDataRepository: LocalAppDataRepository
+    private val supabaseClient: SupabaseClient,
+    private val localAppDataRepository: LocalAppDataRepository,
 ) : AuthRepository {
 
     private val auth = supabaseClient.auth
 
-    override fun login(userData: UserData): Flow<Response<UserData>> = flow {
+    override fun login(userData: UserData): Flow<Response<AuthResult>> = flow {
         emit(Response.Loading)
         try {
             auth.signInWith(Email) {
@@ -33,14 +43,29 @@ class AuthRepositoryImpl(
                 password = userData.password
             }
 
-            val session = auth.currentUserOrNull()
-            val resolvedUser = userData.copy(
-                userId = session?.id ?: "",
-                name = session?.userMetadata?.get("name")?.jsonPrimitive?.content ?: userData.name
-            )
+            val results = auth.currentUserOrNull()
+
+            val authUser = supabaseClient.from(SupabaseConstants.PROFILE).select{
+                filter { eq("id", results?.id ?: "") }
+            }.decodeSingle<AuthUserDTO>().toAuthUser()
+            Log.i("TAG", "login: $authUser")
+            val hasSkills = runCatching {
+                val result = supabaseClient.from(SupabaseConstants.USER_SKILLS)
+                    .select {
+                        filter { eq("user_id", results?.id ?: "") }
+                    }.decodeList<UserSkillsDTOItem>()
+                (result.count()) > 0L
+            }.getOrDefault(false)
+
+            val isProfileComplete = authUser.isMentorProfileComplete()
 
             localAppDataRepository.setLoggedIn(true)
-            emit(Response.Success(resolvedUser))
+            localAppDataRepository.setProfileComplete(isProfileComplete)
+
+            if (hasSkills) {
+                localAppDataRepository.setGuildSelectionComplete(true)
+            }
+            emit(Response.Success(AuthResult(authUser, hasSkills, isProfileComplete)))
         } catch (e: AuthRestException) {
             Log.e("TAG", e.localizedMessage ?: "")
             emit(Response.Error(mapAuthError(e.error)))
@@ -50,7 +75,7 @@ class AuthRepositoryImpl(
         }
     }.flowOn(Dispatchers.IO)
 
-    override fun signup(userData: UserData): Flow<Response<UserData>> = flow {
+    override fun signup(userData: UserData): Flow<Response<AuthResult>> = flow {
         emit(Response.Loading)
         runCatching {
             auth.signUpWith(Email) {
@@ -61,20 +86,23 @@ class AuthRepositoryImpl(
                     put("role", "mentor")
                 }
             }
-        }.onSuccess {
+
             auth.signInWith(Email) {
                 this.email = userData.email
                 this.password = userData.password
             }
 
-            val session = auth.currentUserOrNull()
-            val resolvedUser = userData.copy(
-                userId = session?.id ?: "",
-                name = session?.userMetadata?.get("name")?.jsonPrimitive?.content ?: userData.name
-            )
+            val result = supabaseClient.auth.currentUserOrNull()
 
+            supabaseClient.from(SupabaseConstants.PROFILE).select {
+                filter { eq("id", result?.id ?: "") }
+            }.decodeSingle<AuthUserDTO>().toAuthUser()
+        }.onSuccess { resolvedUser ->
+            val isProfileComplete = resolvedUser.isMentorProfileComplete()
+            Log.i("TAG", "signup: $resolvedUser $isProfileComplete")
             localAppDataRepository.setLoggedIn(true)
-            emit(Response.Success(resolvedUser))
+            localAppDataRepository.setProfileComplete(isProfileComplete)
+            emit(Response.Success(AuthResult(resolvedUser, false, isProfileComplete)))
         }.onFailure { e ->
             Log.i("TAG", "signup: $e")
             when (e) {

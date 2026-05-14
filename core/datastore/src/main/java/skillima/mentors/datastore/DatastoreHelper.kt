@@ -22,6 +22,7 @@ class DatastoreHelper(private val context: Context) {
             val APP_THEME = stringPreferencesKey("APP_THEME")
             val IS_ONBOARDING_COMPLETE = booleanPreferencesKey("IS_ONBOARDING_COMPLETE")
             val IS_GUILD_SELECTION_COMPLETE = booleanPreferencesKey("IS_GUILD_SELECTION_COMPLETE")
+            val IS_PROFILE_COMPLETE = booleanPreferencesKey("IS_PROFILE_COMPLETE")
             val ONBOARDING_ACCOUNT_TYPE =
                 stringPreferencesKey("ONBOARDING_ACCOUNT_TYPE")
         }
@@ -44,6 +45,7 @@ class DatastoreHelper(private val context: Context) {
 
     val isOnboardingCompleteFlow : Flow<Boolean> = context.userPreferences.data.map { it[SessionKeys.IS_ONBOARDING_COMPLETE] == true }
     val isGuildSelectionCompleted : Flow<Boolean> = context.userPreferences.data.map { it[SessionKeys.IS_GUILD_SELECTION_COMPLETE] == true }
+    val isProfileComplete : Flow<Boolean> = context.userPreferences.data.map { it[SessionKeys.IS_PROFILE_COMPLETE] == true }
 
     val onboardingAccountTypeFlow : Flow<String> = context.userPreferences.data.map { it[SessionKeys.ONBOARDING_ACCOUNT_TYPE] ?: "GUEST" }
 
@@ -68,12 +70,21 @@ class DatastoreHelper(private val context: Context) {
         }
     }
 
-    suspend fun updateAccountType(type:String){
+    suspend fun updateAccountType(type: String) {
         context.userPreferences.edit { preferences ->
             preferences[SessionKeys.ONBOARDING_ACCOUNT_TYPE] = type
         }
-
     }
 
+    suspend fun setGuildSelectionComplete(value: Boolean) {
+        context.userPreferences.edit { preferences ->
+            preferences[SessionKeys.IS_GUILD_SELECTION_COMPLETE] = value
+        }
+    }
 
+    suspend fun setProfileComplete(value: Boolean) {
+        context.userPreferences.edit { preferences ->
+            preferences[SessionKeys.IS_PROFILE_COMPLETE] = value
+        }
+    }
 }

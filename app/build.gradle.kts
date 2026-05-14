@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.skillima.android)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.skillima.koin)
+    alias(libs.plugins.gms)
 }
 
 
@@ -63,6 +64,13 @@ dependencies {
     implementation(projects.screens.guild)
     implementation(projects.data.guild)
     implementation(projects.screens.home)
+    implementation(projects.screens.mentorProfile)
+    implementation(projects.core.notifications)
+    implementation(projects.data.profile)
+
+    // Firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.cloud.messaging)
 
 
     implementation("androidx.core:core-splashscreen:1.0.1")

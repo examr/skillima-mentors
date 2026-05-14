@@ -7,12 +7,14 @@ import io.github.jan.supabase.auth.auth
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.jsonPrimitive
 import skillima.data.local.repository.local.LocalAppDataRepository
+import skillima.data.profile.repository.ProfileRepository
+import skillima.mentors.utils.Response
 
 class HomeViewModel(
     private val supabaseClient: SupabaseClient,
     private val localAppDataRepository: LocalAppDataRepository,
+    private val profileRepository: ProfileRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
@@ -27,13 +29,19 @@ class HomeViewModel(
 
     private fun loadUser() {
         viewModelScope.launch {
-            val user = supabaseClient.auth.currentUserOrNull()
-            if (user != null) {
-                val name = user.userMetadata?.get("name")?.jsonPrimitive?.content ?: ""
-                val email = user.email ?: ""
-                _uiState.value = HomeUiState.Success(name = name, email = email)
-            } else {
-                _uiState.value = HomeUiState.Error
+            _uiState.value = when (val result = profileRepository.getCurrentMentorProfile()) {
+                is Response.Success -> {
+                    if (result.data.verificationStatus == "pending") {
+                        HomeUiState.AwaitingVerification(result.data.name)
+                    } else {
+                        HomeUiState.Success(
+                            name = result.data.name,
+                            email = result.data.email,
+                        )
+                    }
+                }
+
+                else -> HomeUiState.Error
             }
         }
     }

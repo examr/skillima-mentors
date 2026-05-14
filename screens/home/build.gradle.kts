@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.skillima.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.skillima.koin)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -33,10 +34,13 @@ dependencies {
     implementation(projects.core.models)
     implementation(projects.core.supabase)
     implementation(projects.data.local)
+    implementation(projects.data.profile)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

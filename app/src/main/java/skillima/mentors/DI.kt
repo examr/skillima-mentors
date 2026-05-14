@@ -13,6 +13,9 @@ import skillima.screens.auth.authPresentation
 import skillima.screens.guild.guildPresentation
 import skillima.screens.home.homeModule
 import skillima.screens.onboarding.onboardingModule
+import skillima.screens.mentorprofile.mentorProfileModule
+import skillima.core.notifications.di.notificationsModule
+import skillima.data.profile.di.profileDataModule
 
 val appModules = module {
     includes(
@@ -27,11 +30,10 @@ val appModules = module {
         localDatabaseModule,
         guildPresentation,
         guildDataModule,
-        homeModule
-
-
-
-
+        homeModule,
+        mentorProfileModule,
+        notificationsModule,
+        profileDataModule,
     )
 
     single { Navigator() }

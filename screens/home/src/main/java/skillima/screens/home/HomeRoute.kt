@@ -2,6 +2,7 @@ package skillima.screens.home
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
@@ -16,10 +17,21 @@ fun HomeRoute() {
     val logoutState by viewModel.logoutState.collectAsStateWithLifecycle()
     val navigator: Navigator = getKoin().get()
 
+    LaunchedEffect(logoutState) {
+        if (logoutState is LogoutState.Done) {
+            navigator.backStack.clear()
+        }
+    }
+
     when (val state = uiState) {
         is HomeUiState.Loading -> {
-            // Splash screen already handles initial loading
-            Text("Loading")
+            HomeShimmerSkeleton()
+        }
+        is HomeUiState.AwaitingVerification -> {
+            MentorAwaitingScreen(
+                onLogout = viewModel::logout,
+                logoutState = logoutState,
+            )
         }
         is HomeUiState.Success -> {
             HomeScreen(
@@ -31,7 +43,6 @@ fun HomeRoute() {
             )
         }
         is HomeUiState.Error -> {
-            // If user session is invalid, logout clears state and Navigator re-routes
             Text("Error")
         }
     }

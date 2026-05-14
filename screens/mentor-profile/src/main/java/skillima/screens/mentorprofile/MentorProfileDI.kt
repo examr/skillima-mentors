@@ -15,6 +15,6 @@ val mentorProfileModule = module {
     }
 
     single {
-        MentorProfileViewModel(get(), get())
+        MentorProfileViewModel(get(), get(), get())
     }
 }

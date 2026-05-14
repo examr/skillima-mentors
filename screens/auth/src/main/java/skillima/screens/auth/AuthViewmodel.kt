@@ -152,13 +152,13 @@ class AuthViewmodel(
                     }
 
                     is Response.Success -> {
-
+                        val authResult = res.data
                         userLocalRepository.saveUser(
-                            res.data.toEntity()
+                            authResult.user.toEntity()
                         )
 
                         _loginUiState.value =
-                            LoginUiState.Success(res.data)
+                            LoginUiState.Success(authResult.user, authResult.hasSkills, authResult.isProfileComplete)
                     }
                 }
             }
@@ -180,12 +180,13 @@ class AuthViewmodel(
                     }
 
                     is Response.Success -> {
+                        val authResult = res.data
                         userLocalRepository.saveUser(
-                            res.data.toEntity()
+                            authResult.user.toEntity()
                         )
 
                         _signupUiState.value =
-                            SignupUiState.Success(res.data)
+                            SignupUiState.Success(authResult.user, authResult.hasSkills, authResult.isProfileComplete)
                     }
                 }
             }

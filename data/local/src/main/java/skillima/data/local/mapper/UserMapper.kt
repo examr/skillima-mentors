@@ -1,13 +1,20 @@
 package skillima.data.local.mapper
 
-import skillima.mentors.module.UserData
 import skillima.data.local.entity.UserEntity
+import skillima.mentors.module.AuthUser
+import skillima.mentors.module.Role
 
-fun UserData.toEntity(): UserEntity {
+fun AuthUser.toEntity(): UserEntity {
     return UserEntity(
-        id = this.userId,
+        id = this.id,
         name = this.name,
         email = this.email,
-        role = this.role
+        role = Role.Mentor,
+        profilePhoto = this.profilePhoto,
+        bio = this.bio,
+        githubUrl = this.githubUrl,
+        linkedinUrl = this.linkedinUrl,
+        xUrl = this.xUrl,
+        fcmToken = this.fcmToken,
     )
 }

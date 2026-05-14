@@ -5,8 +5,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.getKoin
-import skillima.mentors.navigation.GuildScreen
 import skillima.mentors.navigation.LoginScreen
+import skillima.mentors.navigation.MentorProfileScreen
 import skillima.mentors.navigation.Navigator
 import skillima.screens.auth.AuthViewmodel
 import skillima.screens.auth.screens.SignupScreen
@@ -25,10 +25,14 @@ fun SignupRoute(
         navigateToLogin = {
             navigator.replaceTop(LoginScreen)
         },
-        onSuccess = {
+        onSuccess = { isProfileComplete ->
             navigator.backStack.clear()
-
-            navigator.goTo(GuildScreen)
+            if (!isProfileComplete) {
+                // Mentors must complete their profile before selecting a guild
+                navigator.goTo(MentorProfileScreen)
+            } else {
+                navigator.goTo(skillima.mentors.navigation.GuildScreen)
+            }
         }
     )
 

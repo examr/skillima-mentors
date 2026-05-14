@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import skillma.core.ui.design.button.SkillimaButton
 import skillma.core.ui.design.utils.ButtonColor
 import skillma.core.ui.design.utils.ButtonState
+import skillma.core.ui.design.utils.shimmerEffect
 
 @Composable
 fun HomeScreen(
@@ -106,5 +108,66 @@ fun HomeScreen(
         ) {
             Text(text = "Log Out")
         }
+    }
+}
+
+@Composable
+fun HomeShimmerSkeleton(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(24.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp)
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(56.dp)
+                    .clip(CircleShape)
+                    .shimmerEffect()
+            )
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Box(
+                    modifier = Modifier
+                        .size(width = 120.dp, height = 24.dp)
+                        .clip(MaterialTheme.shapes.small)
+                        .shimmerEffect()
+                )
+                Box(
+                    modifier = Modifier
+                        .size(width = 180.dp, height = 16.dp)
+                        .clip(MaterialTheme.shapes.small)
+                        .shimmerEffect()
+                )
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .size(width = 80.dp, height = 28.dp)
+                .clip(MaterialTheme.shapes.small)
+                .shimmerEffect()
+        )
+
+        HorizontalDivider()
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(MaterialTheme.shapes.medium)
+                .shimmerEffect()
+        )
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(MaterialTheme.shapes.medium)
+                .shimmerEffect()
+        )
     }
 }

@@ -60,7 +60,7 @@ fun SignupScreen(
     signupUiState: SignupUiState,
     onEvent: (AuthEvents) -> Unit,
     navigateToLogin: () -> Unit,
-    onSuccess: () -> Unit
+    onSuccess: (isProfileComplete: Boolean) -> Unit
 ) {
     val snackBarHostState by remember { mutableStateOf(SnackbarHostState()) }
     var signupButtonState by remember { mutableStateOf<ButtonState>(ButtonState.Idle) }
@@ -81,7 +81,7 @@ fun SignupScreen(
                 signupButtonState = ButtonState.Loading
             }
             is SignupUiState.Success -> {
-                onSuccess()
+                onSuccess(signupUiState.isProfileComplete)
                 signupButtonState = ButtonState.Success
             }
         }

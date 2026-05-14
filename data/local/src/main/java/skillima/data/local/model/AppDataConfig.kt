@@ -5,4 +5,5 @@ data class AppDataConfig(
     val notificationEnabled: Boolean,
     val firstTime: Boolean,
     val isGuildSelected: Boolean,
+    val isProfileComplete: Boolean = false,
 )

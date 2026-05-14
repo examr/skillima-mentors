@@ -1,0 +1,4 @@
+<resources>
+    <string name="profile_error_unknown">Something went wrong. Please try again.</string>
+    <string name="profile_error_user_not_found">User not found. Please log in again.</string>
+</resources>

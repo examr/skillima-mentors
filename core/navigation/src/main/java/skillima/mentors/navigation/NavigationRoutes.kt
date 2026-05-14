@@ -15,3 +15,5 @@ data object ForgetScreen : Destinations
 data object HomeScreen : Destinations
 
 data object GuildScreen: Destinations
+
+data object MentorProfileScreen : Destinations

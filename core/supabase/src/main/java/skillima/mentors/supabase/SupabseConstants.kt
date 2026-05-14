@@ -9,4 +9,10 @@ object SupabaseConstants {
     const val SKILLS_TABLE = "skills"
 
 
+    const val PROFILE = "profiles"
+    const val GUILDS = "guilds"
+    const val SKILLS = "skills"
+    const val USER_SKILLS = "user_skills"
+    const val GUILD_MEMBERSHIPS = "guild_memberships"
+    const val MENTOR_PROFILES = "mentor_profiles"
 }

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "255741081347",
+    "project_id": "skillima-live",
+    "storage_bucket": "skillima-live.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255741081347:android:1fa8290b9e29222e391b36",
+        "android_client_info": {
+          "package_name": "skillima.mentors"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA9LXhCxvumir6BUZCbgawVoPZa_FaFw48"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

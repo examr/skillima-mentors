@@ -57,7 +57,7 @@ fun LoginScreen(
     userInput: UserInput,
     onEvent: (authEvents: AuthEvents) -> Unit,
     navigateToSignup: () -> Unit,
-    onSuccess: () -> Unit
+    onSuccess: (hasSkills: Boolean, isProfileComplete: Boolean) -> Unit
 ) {
     var loginButtonState by remember { mutableStateOf<ButtonState>(ButtonState.Idle) }
     val snackBarHostState by remember { mutableStateOf(SnackbarHostState()) }
@@ -78,7 +78,7 @@ fun LoginScreen(
                 loginButtonState = ButtonState.Loading
             }
             is LoginUiState.Success -> {
-                onSuccess()
+                onSuccess(loginUiState.hasSkills, loginUiState.isProfileComplete)
                 loginButtonState = ButtonState.Success
             }
         }

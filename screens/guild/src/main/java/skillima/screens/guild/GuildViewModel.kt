@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import skillima.data.guild.repository.GuildRepository
+import skillima.data.local.repository.local.LocalAppDataRepository
 import skillima.data.local.repository.skills.UserSkillLocalRepository
-import skillima.data.local.repository.skills.UserSkillLocalRepositoryImpl
 import skillima.data.local.repository.user.UserLocalRepository
 import skillima.mentors.utils.Response
 import skillima.screens.guild.model.FetchGuildState
@@ -21,7 +21,8 @@ import skillima.screens.guild.utils.toDomain
 class GuildViewModel(
     private val guildRepository: GuildRepository,
     private val userLocalRepository: UserLocalRepository,
-    private val userSkillLocalRepository: UserSkillLocalRepository
+    private val userSkillLocalRepository: UserSkillLocalRepository,
+    private val localAppDataRepository: LocalAppDataRepository,
 ) : ViewModel() {
 
     private val _fetchGuildState = MutableStateFlow<FetchGuildState>(FetchGuildState.Idle)
@@ -302,8 +303,8 @@ class GuildViewModel(
                             .distinctBy { it.id }
                             .map { it.toUserSkillEntity() }
 
-                        // Save to Room after Supabase confirms
                         userSkillLocalRepository.saveSkills(allSkills)
+                        localAppDataRepository.setGuildSelectionComplete(true)
 
                         _saveSkillsState.value = SaveSkillsState.Success
                     }

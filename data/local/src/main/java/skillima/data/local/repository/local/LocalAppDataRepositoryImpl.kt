@@ -16,8 +16,9 @@ class LocalAppDataRepositoryImpl(
             datastoreHelper.isLoggedIn,
             datastoreHelper.isOnboardingCompleteFlow,
             notificationObserver.observeNotification(),
-            datastoreHelper.isGuildSelectionCompleted
-        ) { isLoggedIn, isOnboardingComplete, notificationStatus, isGuildCompleted ->
+            datastoreHelper.isGuildSelectionCompleted,
+            datastoreHelper.isProfileComplete
+        ) { isLoggedIn, isOnboardingComplete, notificationStatus, isGuildCompleted, isProfileComplete ->
             AppDataConfig(
                 loggedIn = isLoggedIn,
                 notificationEnabled = when (notificationStatus) {
@@ -25,7 +26,8 @@ class LocalAppDataRepositoryImpl(
                     EnableObserver.NotificationStatus.DISABLE -> false
                 },
                 firstTime = !isOnboardingComplete,
-                isGuildSelected = isGuildCompleted
+                isGuildSelected = isGuildCompleted,
+                isProfileComplete = isProfileComplete
             )
         }
 
@@ -37,4 +39,11 @@ class LocalAppDataRepositoryImpl(
         datastoreHelper.saveLoggedIn(value)
     }
 
+    override suspend fun setGuildSelectionComplete(value: Boolean) {
+        datastoreHelper.setGuildSelectionComplete(value)
+    }
+
+    override suspend fun setProfileComplete(value: Boolean) {
+        datastoreHelper.setProfileComplete(value)
+    }
 }

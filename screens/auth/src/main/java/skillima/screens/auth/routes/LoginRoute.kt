@@ -26,9 +26,15 @@ fun LoginRoute(
         navigateToSignup = {
             navigator.replaceTop(SignupScreen)
         },
-        onSuccess = {
+        onSuccess = { hasSkills, isProfileComplete ->
             navigator.backStack.clear()
-            navigator.goTo(GuildScreen)
+            if (!isProfileComplete) {
+                navigator.goTo(skillima.mentors.navigation.MentorProfileScreen)
+            } else if (!hasSkills) {
+                navigator.goTo(GuildScreen)
+            } else {
+                navigator.goTo(skillima.mentors.navigation.HomeScreen)
+            }
         }
     )
 }

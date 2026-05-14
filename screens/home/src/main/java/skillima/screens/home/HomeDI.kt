@@ -14,7 +14,7 @@ val homeModule = module {
         }
     }
 
-    single {
-        HomeViewModel(get(), get())
+    single<HomeViewModel> {
+        HomeViewModel(get(), get(), get())
     }
 }

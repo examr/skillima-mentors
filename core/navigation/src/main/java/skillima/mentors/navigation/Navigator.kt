@@ -30,7 +30,9 @@ class Navigator {
     }
 
     private fun determineDestination(data: AppDataConfig): Destinations = when {
-        data.loggedIn -> GuildScreen  // TODO: swap to HomeScreen once implemented
+        data.loggedIn && data.isProfileComplete && data.isGuildSelected -> HomeScreen
+        data.loggedIn && !data.isProfileComplete -> MentorProfileScreen
+        data.loggedIn && !data.isGuildSelected -> GuildScreen
         data.firstTime -> OnboardingScreen
         else -> LoginScreen
     }

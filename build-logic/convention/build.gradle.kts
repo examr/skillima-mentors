@@ -13,8 +13,8 @@ dependencies {
     compileOnly(libs.android.tools.common)
     compileOnly(libs.ksp.gradlePlugin)
 
-    compileOnly(libs.firebase.crashlytics.gradlePlugin)
-    compileOnly(libs.firebase.performance.gradlePlugin)
+    implementation(libs.firebase.crashlytics.gradlePlugin)
+    implementation(libs.firebase.performance.gradlePlugin)
 
 }
 

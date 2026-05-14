@@ -9,10 +9,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="skillima.mentors" />
+                  <option name="mobileSdkAppId" value="1:255741081347:android:1fa8290b9e29222e391b36" />
+                  <option name="projectId" value="skillima-live" />
+                  <option name="projectNumber" value="255741081347" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
